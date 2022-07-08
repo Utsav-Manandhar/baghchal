@@ -1,4 +1,4 @@
-#include<iostream>
+#pragma once //so that nothing is declared twice if already done before
 
 class Animal
 {
