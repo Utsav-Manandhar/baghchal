@@ -1,3 +1,5 @@
+//rough draft of rendering board and moving piece
+
 #include <iostream>
 #include"SFML/Graphics.hpp"
 #include"SFML/Window.hpp"
@@ -79,7 +81,7 @@ int main()
 void update(RenderWindow& window, CircleShape& piece, int* x_grid, int* y_grid) {
 	float r = piece.getRadius();											//Radius of piece
 	float x = piece.getPosition().x, y = piece.getPosition().y;				//position of top left corner of piece
-	int x_m = Mouse::getPosition(window).x, y_m = Mouse::getPosition(window).y;// position of mouse
+	int x_m = Mouse::getPosition(window).x, y_m = Mouse::getPosition(window).y;		// position of mouse
 	if (x_m > x && x_m<x + 2 * r && y_m>y && y_m < y + 2 * r && Mouse::isButtonPressed(Mouse::Left)) {
 		piece.setPosition(Vector2f(x_m - r, y_m - r));
 	}
