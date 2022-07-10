@@ -91,7 +91,7 @@ void update(RenderWindow& window, CircleShape& piece, int* x_grid, int* y_grid) 
 		if (y_pos > 4)y_pos = 4;
 		if (x_pos < 0)x_pos = 0;
 		if (y_pos < 0)y_pos = 0;
-		piece.setPosition(Vector2f(x_grid[x_pos], y_grid[y_pos]));
+		piece.setPosition(Vector2f(x_grid[x_pos]+r/2, y_grid[y_pos]+r/2));
 	}
 }
 
