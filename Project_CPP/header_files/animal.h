@@ -2,7 +2,7 @@
 
 class Animal
 {
-private:
+protected:
     int totalNumber;
     int from_row, to_row;
     int from_column, to_column;
