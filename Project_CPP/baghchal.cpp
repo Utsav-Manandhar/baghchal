@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include<cmath>
+#include<algorithm>
 #include"SFML/Graphics.hpp"
 #include"SFML/Window.hpp"
 #include"SFML/System.hpp"
@@ -27,6 +28,8 @@ int  x_selected = 0, y_selected = 0;
 //for tigers
 int current_t_pos_x = 0, current_t_pos_y = 0;
 int new_t_pos_x = 0, new_t_pos_y = 0;
+int bali_ka_bakhraa = 0;
+int mid_tile_x = 0, mid_tile_y = 0;
 class Bakhraa : public Animal
 {
 private:
@@ -259,6 +262,47 @@ void update_events(RenderWindow& window, Bakhraa goats[],Baagh tigers[], int* x_
 				tigers[tiger_number].set_Position(new_t_pos_x, new_t_pos_y);			//updating piece's position and then piece's pixel position
 				tigers[tiger_number].setPosition(Vector2f(x_grid[tigers[tiger_number].get_X()], y_grid[tigers[tiger_number].get_Y()])); 
 				is_current_recorded = false;
+			}
+			else if (abs(new_t_pos_x - current_t_pos_x) <= 2 && abs(new_t_pos_y - current_t_pos_y) <= 2 && grid[new_t_pos_x][new_t_pos_y] == 0)
+			{//if baagh tries to eat a goat
+				piece_is_clicked = false;
+				is_current_recorded = false;
+				if (new_t_pos_x != current_t_pos_x && new_t_pos_y != current_t_pos_y)
+				{//diagonal case
+					mid_tile_x = min(new_t_pos_x, current_t_pos_x) + 1;
+					mid_tile_y = min(new_t_pos_y, current_t_pos_y) + 1;
+					
+				}
+				else if (abs(new_t_pos_x - current_t_pos_x) == 2 && new_t_pos_y == current_t_pos_x)
+				{//horizontal case
+					mid_tile_x = min(new_t_pos_x, current_t_pos_x) + 1;
+					mid_tile_y = current_t_pos_y;
+				}
+				else 
+				{//vertical case
+					mid_tile_x = current_t_pos_x;
+					mid_tile_y = min(new_t_pos_y, current_t_pos_y) + 1;
+				}
+				if (grid[mid_tile_x][mid_tile_y] == 1)
+				{
+					for (int i = 0; i < 20; i++)
+					{
+						if (goats[i].get_X() == mid_tile_x && goats[i].get_Y() == mid_tile_y)		//determining which goat to kill
+						{
+							bali_ka_bakhraa = i;
+							break;
+						}
+					}
+					goats[bali_ka_bakhraa].setstate(dead);								//killing said goat
+					grid[mid_tile_x][mid_tile_y] = 0;									//updating grid			
+					grid[current_t_pos_x][current_t_pos_y] = 0;
+					grid[new_t_pos_x][new_t_pos_y] = 2;
+					current_t_pos_x = new_t_pos_x;											//updating to new posiion
+					current_t_pos_y = new_t_pos_y;
+					tigers[tiger_number].set_Position(new_t_pos_x, new_t_pos_y);			//updating piece's position and then piece's pixel position
+					tigers[tiger_number].setPosition(Vector2f(x_grid[tigers[tiger_number].get_X()], y_grid[tigers[tiger_number].get_Y()]));
+					is_goats_turn = true;
+				}
 			}
 			else 
 			{// if piece is moved to invalid square
