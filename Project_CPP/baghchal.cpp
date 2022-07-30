@@ -267,21 +267,21 @@ void update_events(RenderWindow& window, Bakhraa goats[],Baagh tigers[], int* x_
 			{//if baagh tries to eat a goat
 				piece_is_clicked = false;
 				is_current_recorded = false;
-				if (new_t_pos_x != current_t_pos_x && new_t_pos_y != current_t_pos_y)
+				if (new_t_pos_x!=current_t_pos_x&&new_t_pos_y!=current_t_pos_y)
 				{//diagonal case
-					mid_tile_x = min(new_t_pos_x, current_t_pos_x) + 1;
-					mid_tile_y = min(new_t_pos_y, current_t_pos_y) + 1;
+					mid_tile_x = min(current_t_pos_x, new_t_pos_x) + 1;
+					mid_tile_y = min(current_t_pos_y, new_t_pos_y) + 1;
 					
 				}
-				else if (abs(new_t_pos_x - current_t_pos_x) == 2 && new_t_pos_y == current_t_pos_x)
+				else if (abs(new_t_pos_x - current_t_pos_x) == 2 && new_t_pos_y == current_t_pos_y)
 				{//horizontal case
-					mid_tile_x = min(new_t_pos_x, current_t_pos_x) + 1;
+					mid_tile_x = min(current_t_pos_x, new_t_pos_x) + 1;
 					mid_tile_y = current_t_pos_y;
 				}
 				else 
 				{//vertical case
 					mid_tile_x = current_t_pos_x;
-					mid_tile_y = min(new_t_pos_y, current_t_pos_y) + 1;
+					mid_tile_y = min(current_t_pos_y, new_t_pos_y) + 1;
 				}
 				if (grid[mid_tile_x][mid_tile_y] == 1)
 				{
@@ -294,6 +294,7 @@ void update_events(RenderWindow& window, Bakhraa goats[],Baagh tigers[], int* x_
 						}
 					}
 					goats[bali_ka_bakhraa].setstate(dead);								//killing said goat
+					goats[bali_ka_bakhraa].set_Position(-1, -1);						//getting rid of the body
 					grid[mid_tile_x][mid_tile_y] = 0;									//updating grid			
 					grid[current_t_pos_x][current_t_pos_y] = 0;
 					grid[new_t_pos_x][new_t_pos_y] = 2;
