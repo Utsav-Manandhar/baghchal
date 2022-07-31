@@ -1,3 +1,4 @@
+
 //#pragma once
 
 #include <iostream>
@@ -10,6 +11,8 @@
 
 using namespace std;
 using namespace sf;
+//int tiger_going_to_x = 0;
+//int tiger_going_to_y = 0;
 
 //information about bakhraa
 static int bakhraa_count = 0;
@@ -75,7 +78,7 @@ public:
 };
 
 
-void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5]);
+void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5]);
 
 
 
@@ -178,7 +181,7 @@ int main()
 
 
 		window.clear(Color::Black);
-		if(!game_is_over){
+		if (!game_is_over) {
 			// SHOWING GAME UI unless game is over (work needs to be done)
 			/////
 			//////
@@ -198,12 +201,13 @@ int main()
 			{
 				window.draw(tigers[i]);
 			}
-		}else{
+		}
+		else {
 			CircleShape test;
 			test.setRadius(50.f);
 
-			test.setPosition(Vector2f(50.f,50.f));
-			if( has_goat_won )
+			test.setPosition(Vector2f(50.f, 50.f));
+			if (has_goat_won)
 			{
 				test.setFillColor(Color::White);
 			}
@@ -224,7 +228,7 @@ int main()
 }
 
 
-void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5])
+void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5])
 {    //mouse positon to record in pixels
 	int x_m = Mouse::getPosition(window).x, y_m = Mouse::getPosition(window).y;
 	int x_mouse = 0, y_mouse = 0;//mouse to record position in grid placement
@@ -235,25 +239,29 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 		x_mouse = (x_m - 400) / 80;
 		y_mouse = (y_m - 200) / 80;
 	}
-	if( bakhraa_killed > 4)
+	if (bakhraa_killed > 4)
 	{
 		game_is_over = true;
 		has_goat_won = false;
 		//DISPLAY BAGH WON
 	}
-	for(int i = 0; i < 4; i++) //i = baagh number
+	bagh_can_move = false;
+	for (int i = 0; i < 4; i++) //i = baagh number
 	{
 		int tiger_going_to_x = tigers[i].get_X();
 		int tiger_going_to_y = tigers[i].get_Y();
-		bagh_can_move = false;
-		for(int j = -2 ; j < 3 ; j++)
+		for (int j = -2; j < 3; j++)
 		{
-			for(int k = -2 ; k < 3 ; k++)
+			for (int k = -2; k < 3; k++)
 			{
-				if(tiger_going_to_x >= 0 && tiger_going_to_y >= 0 && tiger_going_to_x <= 4 && tiger_going_to_y <=4 )
+				if (tiger_going_to_x+j >= 0 && tiger_going_to_y+k >= 0 && tiger_going_to_x+j <= 4 && tiger_going_to_y+k <= 4)
 				{
-					if( j != 0 and k !=0 and k!=j){continue;}
-					if( grid[tiger_going_to_x+j][tiger_going_to_y+k] == 0 )
+					if (j != 0 && k != 0 && k != j) 
+					{
+
+						continue;
+					}
+					if (grid[tiger_going_to_x + j][tiger_going_to_y + k] == 0)
 					{
 						bagh_can_move = true;
 						//////////////////////////
@@ -264,20 +272,20 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 			}
 		}
 	}
-	if ( !bagh_can_move )
+	if (!bagh_can_move)
 	{
 		has_goat_won = true;
 		game_is_over = true;
 
 	}
-
+	
 	if (!game_is_over)
 	{
 		if (is_goats_turn)
 		{//****nedd to logic bool is_goat_placed logic doesnt seem to work
 			if (bakhraa_count<20)		//To check phase 1 or 2 of game 
 			{
-				if (grid[x_mouse][y_mouse] == 0 && Mouse::isButtonPressed(Mouse::Left) && bakhraa_count < 20 && x_m>400 && x_m < 800 && y_m>200 && y_m < 600)
+				if (grid[x_mouse][y_mouse] == 0 && Mouse::isButtonPressed(Mouse::Left) && bakhraa_count < 21 && x_m>400 && x_m < 800 && y_m>200 && y_m < 600)
 				{
 					grid[x_mouse][y_mouse] = 1;
 					goats[bakhraa_count].set_Position(x_mouse, y_mouse);
@@ -329,7 +337,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 					grid[new_g_pos_x][new_g_pos_y] = 1;
 					current_g_pos_x = new_g_pos_x;											//updating to new posiion
 					current_g_pos_y = new_g_pos_y;
-				
+
 					goats[goat_number].set_Position(new_g_pos_x, new_g_pos_y);			//updating piece's position and then piece's pixel position
 					goats[goat_number].setPosition(Vector2f(x_grid[goats[goat_number].get_X()], y_grid[goats[goat_number].get_Y()]));
 					is_current_recorded = false;
