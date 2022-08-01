@@ -1,5 +1,5 @@
+#pragma once
 
-//#pragma once
 
 #include <iostream>
 #include<cmath>
@@ -8,17 +8,19 @@
 #include"SFML/Window.hpp"
 #include"SFML/System.hpp"
 #include"Animal.h"
+#include"Bakhraa.h"
+#include"Baagh.h"
+
 
 using namespace std;
 using namespace sf;
-//int tiger_going_to_x = 0;
-//int tiger_going_to_y = 0;
+
 
 //information about bakhraa
 static int bakhraa_count = 0;
 /*static*/ int bakhraa_killed = 0;
 static int bakhraa_remain = 20;
-enum goatstate { Dead, alive };
+
 //information about turns and goats
 bool game_is_over = false;
 bool is_goats_turn = true;
@@ -28,7 +30,8 @@ bool bagh_can_move = false;
 //information about piece moving
 bool is_current_recorded = false;
 int tiger_number = 0;
-int goat_number = 0;
+int goat_number = -1;
+
 bool piece_is_clicked = false;
 int  x_selected = 0, y_selected = 0;
 //for tigers
@@ -41,47 +44,12 @@ int mid_tile_x = 0, mid_tile_y = 0;
 int  x_gselected = 0, y_gselected = 0;
 int current_g_pos_x = 0, current_g_pos_y = 0;
 int new_g_pos_x = -1, new_g_pos_y = -1;
-class Bakhraa : public Animal
-{
-private:
-	goatstate state = Dead;
-public:
-	Bakhraa() {}//construtor can be used to draw sfml or display texture of bakhraa
-
-	goatstate getstate() {//just to get state of 'x' goat
-		return state;
-
-	}
-	void setstate(goatstate sate) {//to set state of individual goat
-		state = sate;
-	}
-
-};
-class Baagh : public Animal
-{
-private:
-	bool trapped;
-public:
-	Baagh()
-	{
-		this->trapped = false;
-	}
-	bool is_trapped()
-	{
-		return this->trapped;
-	}
-	void trap()
-	{
-		this->trapped = true;
-	}
-
-};
-
-
-void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5]);
+int new_goat_number = -1;
+bool mouse_clicked_once = false;
 
 
 
+void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5]);
 
 int main()
 {
@@ -97,7 +65,8 @@ int main()
 	int board_height = 400, board_width = 400;
 	int board_origin_x = 400, board_origin_y = 200;
 	int x_grid[5], y_grid[5];
-	for (int i = 0; i < 5; i++) {						//Initializing pixel grid of board
+	for (int i = 0; i < 5; i++) 
+	{						//Initializing pixel grid of board
 		x_grid[i] = board_origin_x + i * board_width / 5;
 		y_grid[i] = board_origin_y + i * board_height / 5;
 	}
@@ -148,6 +117,7 @@ int main()
 		goats[i].set_Position(-1, -1);
 		goats[i].setFillColor(Color::White);
 		goats[i].setstate(Dead);
+
 	}
 	Baagh tigers[4];//Iinitializing Tigers
 	tigers[0].set_Position(0, 0);
@@ -163,6 +133,8 @@ int main()
 		grid[tigers[i].get_X()][tigers[i].get_Y()] = 2;
 
 	}
+
+
 
 
 
@@ -187,6 +159,7 @@ int main()
 			//////
 			//////
 
+
 			window.draw(V_lines);
 			window.draw(H_lines);
 			window.draw(Borders);
@@ -198,10 +171,12 @@ int main()
 				}
 			}
 			for (int i = 0; i < 4; i++)
+
 			{
 				window.draw(tigers[i]);
 			}
 		}
+
 		else {
 			CircleShape test;
 			test.setRadius(50.f);
@@ -221,6 +196,7 @@ int main()
 			//////
 			//////
 			//////
+
 		}
 		window.display();
 
@@ -228,17 +204,22 @@ int main()
 }
 
 
-void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5])
+
+void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5])
+
 {    //mouse positon to record in pixels
 	int x_m = Mouse::getPosition(window).x, y_m = Mouse::getPosition(window).y;
 	int x_mouse = 0, y_mouse = 0;//mouse to record position in grid placement
 	int r = 40;
+
+
 
 	if (x_m > 400 && x_m < 800 && y_m>200 && y_m < 600)
 	{ //changing pixel to grid state
 		x_mouse = (x_m - 400) / 80;
 		y_mouse = (y_m - 200) / 80;
 	}
+
 	if (bakhraa_killed > 4)
 	{
 		game_is_over = true;
@@ -254,9 +235,9 @@ void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* 
 		{
 			for (int k = -2; k < 3; k++)
 			{
-				if (tiger_going_to_x+j >= 0 && tiger_going_to_y+k >= 0 && tiger_going_to_x+j <= 4 && tiger_going_to_y+k <= 4)
+				if (tiger_going_to_x + j >= 0 && tiger_going_to_y + k >= 0 && tiger_going_to_x + j <= 4 && tiger_going_to_y + k <= 4)
 				{
-					if (j != 0 && k != 0 && k != j) 
+					if (j != 0 && k != 0 && k != j)
 					{
 
 						continue;
@@ -278,14 +259,15 @@ void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* 
 		game_is_over = true;
 
 	}
-	
+
 	if (!game_is_over)
 	{
 		if (is_goats_turn)
 		{//****nedd to logic bool is_goat_placed logic doesnt seem to work
-			if (bakhraa_count<20)		//To check phase 1 or 2 of game 
+			if (bakhraa_count < 20)		//To check phase 1 or 2 of game 
 			{
-				if (grid[x_mouse][y_mouse] == 0 && Mouse::isButtonPressed(Mouse::Left) && bakhraa_count < 21 && x_m>400 && x_m < 800 && y_m>200 && y_m < 600)
+				if (grid[x_mouse][y_mouse] == 0 && Mouse::isButtonPressed(Mouse::Left) && bakhraa_count < 20 && x_m>400 && x_m < 800 && y_m>200 && y_m < 600)
+
 				{
 					grid[x_mouse][y_mouse] = 1;
 					goats[bakhraa_count].set_Position(x_mouse, y_mouse);
@@ -306,12 +288,13 @@ void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* 
 							break;
 						}
 					}
-					x_gselected = goats[goat_number].getPosition().x;	//recording that piece's position
-					y_gselected = goats[goat_number].getPosition().y;
+					x_selected = goats[goat_number].getPosition().x;	//recording that piece's position
+					y_selected = goats[goat_number].getPosition().y;
 				}
 				//if mouse is clicked on the piece
-				if (x_m > x_gselected && x_m<(x_gselected + 2 * r) && y_m>y_gselected && y_m < (y_gselected + 2 * r) && Mouse::isButtonPressed(Mouse::Left))
+				if (x_m > x_selected && x_m<(x_selected + 2 * r) && y_m>y_selected && y_m < (y_selected + 2 * r) && Mouse::isButtonPressed(Mouse::Left))
 				{
+					mouse_clicked_once = true;						//to fix ghost goat bug
 					piece_is_clicked = true;
 					if (!is_current_recorded)						//recording piece's old position once before moving starts
 					{
@@ -323,10 +306,10 @@ void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* 
 					new_g_pos_y = y_mouse;
 
 					goats[goat_number].setPosition(Vector2f(x_m - r, y_m - r));	//making the piece follow the mouse i.e. drag and drop
-					x_gselected = goats[goat_number].getPosition().x;
-					y_gselected = goats[goat_number].getPosition().y;
+					x_selected = goats[goat_number].getPosition().x;
+					y_selected = goats[goat_number].getPosition().y;
 				}
-				else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0)
+				else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0 && mouse_clicked_once)
 				{	//if mouse is not clicked 
 					piece_is_clicked = false;
 					if (current_g_pos_x != new_g_pos_x || current_g_pos_y != new_g_pos_y)	// if you pick up the piece and put it back where it was
@@ -335,24 +318,32 @@ void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* 
 					}
 					grid[current_g_pos_x][current_g_pos_y] = 0;								//updating game grid
 					grid[new_g_pos_x][new_g_pos_y] = 1;
+					goats[goat_number].set_Position(new_g_pos_x, new_g_pos_y);			//updating piece's position and then piece's pixel position
+
 					current_g_pos_x = new_g_pos_x;											//updating to new posiion
 					current_g_pos_y = new_g_pos_y;
-
-					goats[goat_number].set_Position(new_g_pos_x, new_g_pos_y);			//updating piece's position and then piece's pixel position
-					goats[goat_number].setPosition(Vector2f(x_grid[goats[goat_number].get_X()], y_grid[goats[goat_number].get_Y()]));
+					goats[goat_number].setPosition(Vector2f(x_grid[new_g_pos_x], y_grid[new_g_pos_y]));
 					is_current_recorded = false;
 				}
 				else
 				{// if piece is moved to invalid square
 					for (int i = 0; i < 20; i++)
 					{
-						goats[i].setPosition(Vector2f(x_grid[goats[i].get_X()], y_grid[goats[i].get_Y()]));
+
+						if (goats[i].getstate())
+						{
+							goats[i].setPosition(Vector2f(x_grid[goats[i].get_X()], y_grid[goats[i].get_Y()]));
+						}
+						else
+						{
+							goats[i].setPosition(Vector2f(0, 0));
+						}
 					}
 					piece_is_clicked = false;
+					is_current_recorded = false;
+
+
 				}
-
-
-
 
 			}
 		}
@@ -394,6 +385,8 @@ void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* 
 				if (current_t_pos_x != new_t_pos_x || current_t_pos_y != new_t_pos_y)	// if you pick up the piece and put it back where it was
 				{																		// then your turn isn't completed									
 					is_goats_turn = true;
+					mouse_clicked_once = false;											//to fix ghost goat bug
+
 				}
 				grid[current_t_pos_x][current_t_pos_y] = 0;								//updating game grid
 				grid[new_t_pos_x][new_t_pos_y] = 2;
@@ -417,13 +410,16 @@ void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* 
 				{//horizontal case
 					mid_tile_x = min(current_t_pos_x, new_t_pos_x) + 1;
 					mid_tile_y = current_t_pos_y;
+
 				}
 				else
 				{//vertical case
 					mid_tile_x = current_t_pos_x;
 					mid_tile_y = min(current_t_pos_y, new_t_pos_y) + 1;
+
 				}
 				if (grid[mid_tile_x][mid_tile_y] == 1) //bakhraa killed
+
 				{
 					for (int i = 0; i < 20; i++)
 					{
@@ -433,17 +429,24 @@ void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* 
 							break;
 						}
 					}
+
 					goats[bali_ka_bakhraa].setstate(Dead);
 					bakhraa_killed++;								//killing said goat
 					goats[bali_ka_bakhraa].set_Position(-1, -1);						//getting rid of the body
 					grid[mid_tile_x][mid_tile_y] = 0;									//updating grid			
+
 					grid[current_t_pos_x][current_t_pos_y] = 0;
 					grid[new_t_pos_x][new_t_pos_y] = 2;
 					current_t_pos_x = new_t_pos_x;											//updating to new posiion
 					current_t_pos_y = new_t_pos_y;
+
+
 					tigers[tiger_number].set_Position(new_t_pos_x, new_t_pos_y);			//updating piece's position and then piece's pixel position
 					tigers[tiger_number].setPosition(Vector2f(x_grid[tigers[tiger_number].get_X()], y_grid[tigers[tiger_number].get_Y()]));
 					is_goats_turn = true;
+					mouse_clicked_once = false;								//to fix ghost goat bug
+					piece_is_clicked = false;
+
 				}
 			}
 			else
@@ -453,6 +456,9 @@ void update_events(RenderWindow & window, Bakhraa goats[], Baagh tigers[], int* 
 					tigers[i].setPosition(Vector2f(x_grid[tigers[i].get_X()], y_grid[tigers[i].get_Y()]));
 				}
 				piece_is_clicked = false;
+
+				is_current_recorded = false;
+
 			}
 		}
 	}
