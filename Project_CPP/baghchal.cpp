@@ -396,7 +396,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 				tigers[tiger_number].setPosition(Vector2f(x_grid[tigers[tiger_number].get_X()], y_grid[tigers[tiger_number].get_Y()]));
 				is_current_recorded = false;
 			}
-			else if (abs(new_t_pos_x - current_t_pos_x) <= 2 && abs(new_t_pos_y - current_t_pos_y) <= 2 && grid[new_t_pos_x][new_t_pos_y] == 0)
+			else if (((abs(new_t_pos_x - current_t_pos_x) == 2 && abs(new_t_pos_y - current_t_pos_y) == 0)||(abs(new_t_pos_x - current_t_pos_x) == 0 && abs(new_t_pos_y - current_t_pos_y) == 2)||(abs(new_t_pos_x - current_t_pos_x) == 2 && abs(new_t_pos_y - current_t_pos_y) == 2))&& grid[new_t_pos_x][new_t_pos_y] == 0)
 			{//if baagh tries to eat a goat
 				piece_is_clicked = false;
 				is_current_recorded = false;
