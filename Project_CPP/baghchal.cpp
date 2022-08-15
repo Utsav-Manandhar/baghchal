@@ -73,9 +73,29 @@ int main()
 	
 	
 	//to load image
+	Sprite background,gturn,tturn;
+	Texture backgroundtex,gturnt,tturnt;
+	backgroundtex.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/background.jpg");
+	background.setTexture(backgroundtex);
+	background.setScale(1.2f,1.2f);
+
+	gturnt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/goaturn.png");
+	gturn.setTexture(gturnt);
+	gturn.setPosition(300.f, 5.f);
+
+	tturnt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/tigerturn.png");
+	tturn.setTexture(tturnt);
+	tturn.setPosition(350.f, 5.f);
+
+
+
 	Texture igoat, itiger;
 	igoat.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/goat.png");
 	itiger.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/tiger.png");
+
+	Texture goatwin, tigerwin;
+	goatwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBakhraa.png");
+	tigerwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBagh.png");
 
 
 	VertexArray Borders(LineStrip, 5);					//Drawing Borders
@@ -86,8 +106,8 @@ int main()
 	Borders[4].position = Vector2f(board_origin_x, board_origin_y);
 
 	VertexArray V_lines(LineStrip, 8);					//Drawing Vertical lines
-	VertexArray H_lines(LineStrip, 8);					//Drawing Horizontal lines
-
+	VertexArray H_lines(LineStrip, 8);//Drawing Horizontal lines
+	
 	for (int i = 1, j = 0; i < 5; i++, j++) {
 		if (i % 2 == 1) {
 			V_lines[j].position = Vector2f(x_grid[i], y_grid[0]);
@@ -165,12 +185,16 @@ int main()
 			/////
 			//////
 			//////
-
+		
+			window.draw(background);
 			
 			window.draw(V_lines);
 			window.draw(H_lines);
 			window.draw(Borders);
-			for (int i = 0; i < 20; i++)		//draw goats on board
+			if (is_goats_turn)
+				window.draw(gturn);
+			else
+				window.draw(tturn);			for (int i = 0; i < 20; i++)		//draw goats on board
 			{
 				if (goats[i].getstate())
 				{
@@ -185,9 +209,7 @@ int main()
 		}
 		
 		else {
-			Texture goatwin, tigerwin;
-			goatwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBakhraa.png");
-			tigerwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBagh.png");
+			
 			CircleShape test;
 			test.setRadius(380.f);
 
@@ -274,6 +296,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 	{
 		if (is_goats_turn)
 		{//****nedd to logic bool is_goat_placed logic doesnt seem to work
+			
 			if (bakhraa_count < 20)		//To check phase 1 or 2 of game 
 			{
 				if (grid[x_mouse][y_mouse] == 0 && Mouse::isButtonPressed(Mouse::Left) && bakhraa_count < 20 && x_m>400 && x_m < 800 && y_m>200 && y_m < 600)
