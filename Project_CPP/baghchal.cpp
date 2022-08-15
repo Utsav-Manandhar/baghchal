@@ -65,13 +65,37 @@ int main()
 	int board_height = 400, board_width = 400;
 	int board_origin_x = 400, board_origin_y = 200;
 	int x_grid[5], y_grid[5];
-	for (int i = 0; i < 5; i++) 
+	for (int i = 0; i < 5; i++)
 	{						//Initializing pixel grid of board
 		x_grid[i] = board_origin_x + i * board_width / 5;
 		y_grid[i] = board_origin_y + i * board_height / 5;
 	}
+	
+	
+	//to load image
+	Sprite background,gturn,tturn;
+	Texture backgroundtex,gturnt,tturnt;
+	backgroundtex.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/background.jpg");
+	background.setTexture(backgroundtex);
+	background.setScale(1.2f,1.2f);
+
+	gturnt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/goaturn.png");
+	gturn.setTexture(gturnt);
+	gturn.setPosition(300.f, 5.f);
+
+	tturnt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/tigerturn.png");
+	tturn.setTexture(tturnt);
+	tturn.setPosition(350.f, 5.f);
 
 
+
+	Texture igoat, itiger;
+	igoat.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/goat.png");
+	itiger.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/tiger.png");
+
+	Texture goatwin, tigerwin;
+	goatwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBakhraa.png");
+	tigerwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBagh.png");
 
 
 	VertexArray Borders(LineStrip, 5);					//Drawing Borders
@@ -82,8 +106,8 @@ int main()
 	Borders[4].position = Vector2f(board_origin_x, board_origin_y);
 
 	VertexArray V_lines(LineStrip, 8);					//Drawing Vertical lines
-	VertexArray H_lines(LineStrip, 8);					//Drawing Horizontal lines
-
+	VertexArray H_lines(LineStrip, 8);//Drawing Horizontal lines
+	
 	for (int i = 1, j = 0; i < 5; i++, j++) {
 		if (i % 2 == 1) {
 			V_lines[j].position = Vector2f(x_grid[i], y_grid[0]);
@@ -115,7 +139,9 @@ int main()
 	{
 		goats[i].setRadius(40.f);
 		goats[i].set_Position(-1, -1);
-		goats[i].setFillColor(Color::White);
+		//goats[i].setFillColor(Color::White);
+		goats[i].setTexture(&igoat); // image
+
 		goats[i].setstate(Dead);
 
 	}
@@ -128,7 +154,8 @@ int main()
 	for (int i = 0; i < 4; i++)
 	{
 		tigers[i].setRadius(40.f);
-		tigers[i].setFillColor(Color::Red);
+		tigers[i].setTexture(&itiger); // image
+		//tigers[i].setFillColor(Color::Red);
 		tigers[i].setPosition(Vector2f(x_grid[tigers[i].get_X()], y_grid[tigers[i].get_Y()]));
 		grid[tigers[i].get_X()][tigers[i].get_Y()] = 2;
 
@@ -158,12 +185,16 @@ int main()
 			/////
 			//////
 			//////
-
-
+		
+			window.draw(background);
+			
 			window.draw(V_lines);
 			window.draw(H_lines);
 			window.draw(Borders);
-			for (int i = 0; i < 20; i++)		//draw goats on board
+			if (is_goats_turn)
+				window.draw(gturn);
+			else
+				window.draw(tturn);			for (int i = 0; i < 20; i++)		//draw goats on board
 			{
 				if (goats[i].getstate())
 				{
@@ -176,19 +207,20 @@ int main()
 				window.draw(tigers[i]);
 			}
 		}
-
+		
 		else {
+			
 			CircleShape test;
-			test.setRadius(50.f);
+			test.setRadius(380.f);
 
-			test.setPosition(Vector2f(50.f, 50.f));
+			test.setPosition(Vector2f(200.f, 50.f));
 			if (has_goat_won)
 			{
-				test.setFillColor(Color::White);
+				test.setTexture(&goatwin);
 			}
 			else
 			{
-				test.setFillColor(Color::Red);
+				test.setTexture(&tigerwin);
 			}
 			window.draw(test);
 			// SHOWING GAME OVER SCREEN (work needs to be done)
@@ -264,6 +296,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 	{
 		if (is_goats_turn)
 		{//****nedd to logic bool is_goat_placed logic doesnt seem to work
+			
 			if (bakhraa_count < 20)		//To check phase 1 or 2 of game 
 			{
 				if (grid[x_mouse][y_mouse] == 0 && Mouse::isButtonPressed(Mouse::Left) && bakhraa_count < 20 && x_m>400 && x_m < 800 && y_m>200 && y_m < 600)
@@ -396,7 +429,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 				tigers[tiger_number].setPosition(Vector2f(x_grid[tigers[tiger_number].get_X()], y_grid[tigers[tiger_number].get_Y()]));
 				is_current_recorded = false;
 			}
-			else if (((abs(new_t_pos_x - current_t_pos_x) == 2 && abs(new_t_pos_y - current_t_pos_y) == 0)||(abs(new_t_pos_x - current_t_pos_x) == 0 && abs(new_t_pos_y - current_t_pos_y) == 2)||(abs(new_t_pos_x - current_t_pos_x) == 2 && abs(new_t_pos_y - current_t_pos_y) == 2))&& grid[new_t_pos_x][new_t_pos_y] == 0)
+			else if (abs(new_t_pos_x - current_t_pos_x) <= 2 && abs(new_t_pos_y - current_t_pos_y) <= 2 && grid[new_t_pos_x][new_t_pos_y] == 0)
 			{//if baagh tries to eat a goat
 				piece_is_clicked = false;
 				is_current_recorded = false;
