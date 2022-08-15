@@ -3,4 +3,4 @@
 
 
 
-To run this code via terminal : g++ Animal.cpp baghchal.cpp Bakhraa.cpp -o baghchal-app -lsfml-graphics -lsfml-window -lsfml-system && ./baghchal-app
+To run this code via terminal : g++ Animal.cpp Baagh.cpp baghchal.cpp Bakhraa.cpp -o baghchal-app -lsfml-graphics -lsfml-window -lsfml-system && ./baghchal-app
