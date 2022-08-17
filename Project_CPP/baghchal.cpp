@@ -5,6 +5,7 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
+#include"SFML/Audio.hpp"
 #include "Animal.h"
 #include "Bakhraa.h"
 #include "Baagh.h"
@@ -22,7 +23,7 @@ public:
 	static bool has_goat_won;
 	static bool game_is_over;
 	static bool bagh_can_move;
-	 bool IsGameOver(int grid[][5], Bakhraa goats[], Baagh tigers[])
+	bool IsGameOver(int grid[][5], Bakhraa goats[], Baagh tigers[])
 	{
 		if (Bakhraa::getDeathToll() > 4)
 		{
@@ -68,15 +69,15 @@ public:
 
 
 //static  information about bakhraa
-int Bakhraa ::  bakhraa_count = 0;
-int Bakhraa :: bakhraa_killed = 0;
+int Bakhraa::bakhraa_count = 0;
+int Bakhraa::bakhraa_killed = 0;
 int Bakhraa::goat_number = -1;
 
 //static information about baagh
 int Baagh::tiger_number = 0;
 
 //static information about turns and goats
-bool GameOver :: game_is_over = false;
+bool GameOver::game_is_over = false;
 bool GameOver::bagh_can_move = false;
 bool GameOver::has_goat_won = true;
 
@@ -95,7 +96,7 @@ int mid_tile_x = 0, mid_tile_y = 0;
 int x_gselected = 0, y_gselected = 0;
 int current_g_pos_x = 0, current_g_pos_y = 0;
 int new_g_pos_x = -1, new_g_pos_y = -1;
-bool is_multiplayer = false;
+bool is_multiplayer = true;
 
 
 ///////////// AI PART FUNCTIONS /////////////
@@ -321,27 +322,27 @@ int main()
 	}
 
 	//to load image
-	Sprite background, gturn, tturn, killed[6],ctiger,cgoat;
-	Texture backgroundtex, gturnt, tturnt, killeds[6],ctigert,cgoatt;
-	backgroundtex.loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/background.jpg");
+	Sprite background, gturn, tturn, killed[6], ctiger, cgoat;
+	Texture backgroundtex, gturnt, tturnt, killeds[6], ctigert, cgoatt;
+	backgroundtex.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/background.jpg");
 	background.setTexture(backgroundtex);
 	background.setScale(1.2f, 1.2f);
 	//turn display
-	gturnt.loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/goaturn.png");
+	gturnt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/goaturn.png");
 	gturn.setTexture(gturnt);
 	gturn.setScale(0.6f, 0.6f);
 	gturn.setPosition(450.f, 5.f);
 
-	tturnt.loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/tigerturn.png");
+	tturnt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/tigerturn.png");
 	tturn.setTexture(tturnt);
 	tturn.setScale(0.6f, 0.6f);
 	tturn.setPosition(450.f, 5.f);
 	//killed display
-	killeds[1].loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/one.png");
-	killeds[2].loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/two.png");
-	killeds[3].loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/three.png");
-	killeds[4].loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/four.png");
-	killeds[0].loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/zero.png");
+	killeds[1].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/one.png");
+	killeds[2].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/two.png");
+	killeds[3].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/three.png");
+	killeds[4].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/four.png");
+	killeds[0].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/zero.png");
 
 	for (int i = 0; i < 6; i++) {
 		killed[i].setTexture(killeds[i]);
@@ -355,29 +356,43 @@ int main()
 	//piece display
 
 	Texture igoat, itiger;
-	igoat.loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/goat.png");
-	itiger.loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/tiger.png");
+	igoat.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/goat.png");
+	itiger.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/tiger.png");
 
 	Sprite goatw, tigerw;
 	Texture goatwin, tigerwin;
-	goatwin.loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/gameoverBakhraa.png");
-	tigerwin.loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/gameoverBagh.png");
+	goatwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBakhraa.png");
+	tigerwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBagh.png");
 	tigerw.setTexture(tigerwin);
 	goatw.setTexture(goatwin);
 	tigerw.setScale(0.7f, 0.7f);
 	goatw.setScale(0.7f, 0.7f);
 
 	//other display
-	ctigert.loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/ctiger.png");
+	ctigert.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/ctiger.png");
 	ctiger.setTexture(ctigert);
 	ctiger.setScale(0.6f, 0.6f);
 	ctiger.setPosition(40.f, 200.f);
 
-	cgoatt.loadFromFile("/home/deadpoop/Studies/CppProject/baghchal/Project_CPP/images/cgoat.png");
+	cgoatt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/cgoat.png");
 	cgoat.setTexture(cgoatt);
 	cgoat.setScale(0.6f, 0.6f);
 	cgoat.setPosition(820.f, 220.f);
+
+
+	//sound 
+
+	sf::SoundBuffer stiger;
+	sf::Music bsound;
 	
+	stiger.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/tigerRoar.wav");
+	bsound.openFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/bsound.ogg");
+	sf::Sound soundt;
+	
+	soundt.setBuffer(stiger);
+	
+	bsound.play();
+
 
 	VertexArray Borders(LineStrip, 5); // Drawing Borders
 	Borders[0].position = Vector2f(board_origin_x, board_origin_y);
@@ -447,9 +462,11 @@ int main()
 
 	while (window.isOpen())
 	{
+		
 		Event event;
 		while (window.pollEvent(event))
 		{
+		
 			if (event.type == Event::Closed)
 				window.close();
 			if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)
@@ -466,24 +483,32 @@ int main()
 		}
 
 		window.clear(Color::Black);
+		
 		if (!GameOver::game_is_over)
 		{
 			// SHOWING GAME UI unless game is over (work needs to be done)
 			/////
 			//////
 			//////
-
-			   window.draw(background);
+			
+			window.draw(background);
 			window.draw(V_lines);
 			window.draw(H_lines);
 			window.draw(Borders);
+	
 			window.draw(ctiger);
 			window.draw(cgoat);
-
-			if (is_goats_turn)
+			
+			
+			if (is_goats_turn) {
 				window.draw(gturn);
-			else
-				window.draw(tturn);	
+				
+			}
+			else {
+				window.draw(tturn);
+				soundt.play();
+				
+			}
 			int t = Bakhraa::getDeathToll();
 			window.draw(killed[t]);
 
@@ -500,12 +525,12 @@ int main()
 				window.draw(tigers[i]);
 			}
 		}
-		
+
 		else {
-			
-		
-			
-		
+
+
+
+
 			if (GameOver::has_goat_won)
 			{
 				window.draw(goatw);
@@ -514,10 +539,11 @@ int main()
 			{
 				window.draw(tigerw);
 			}
-			
-			
+
+
 
 		}
+	
 		window.display();
 	}
 }
@@ -631,7 +657,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 					if (grid[x_mouse][y_mouse] == 0 && Mouse::isButtonPressed(Mouse::Left) && Bakhraa::getCount() < 20 && x_m > 400 && x_m < 800 && y_m > 200 && y_m < 600)
 
 					{
-						
+
 						grid[x_mouse][y_mouse] = 1;
 						goats[Bakhraa::getCount()].set_Position(x_mouse, y_mouse);
 						goats[Bakhraa::getCount()].setstate(alive);
@@ -822,7 +848,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 		else if (!is_multiplayer)
 		{
 			if (is_goats_turn)
-			{ 
+			{
 				if (Bakhraa::getCount() < 20) // To check phase 1 or 2 of game
 				{
 					if (grid[x_mouse][y_mouse] == 0 && Mouse::isButtonPressed(Mouse::Left) && Bakhraa::getCount() < 20 && x_m > 400 && x_m < 800 && y_m > 200 && y_m < 600)
@@ -967,7 +993,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 											}
 										}
 										goats[bali_ka_bakhraa].setstate(Dead);
-										Bakhraa:: increaseDeathToll();
+										Bakhraa::increaseDeathToll();
 										goats[bali_ka_bakhraa].set_Position(-1, -1);
 										grid[mid_tile_x][mid_tile_y] = 0;
 
