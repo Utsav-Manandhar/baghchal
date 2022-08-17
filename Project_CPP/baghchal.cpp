@@ -321,29 +321,63 @@ int main()
 	}
 
 	//to load image
-	Sprite background, gturn, tturn;
-	Texture backgroundtex, gturnt, tturnt;
-	backgroundtex.loadFromFile("/home/deadpoop/Studies/CppProjectSudip/baghchal_test/Project_CPP/images/background.jpg");
+	Sprite background, gturn, tturn, killed[6],ctiger,cgoat;
+	Texture backgroundtex, gturnt, tturnt, killeds[6],ctigert,cgoatt;
+	backgroundtex.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/background.jpg");
 	background.setTexture(backgroundtex);
 	background.setScale(1.2f, 1.2f);
-
-	gturnt.loadFromFile("/home/deadpoop/Studies/CppProjectSudip/baghchal_test/Project_CPP/images/goaturn.png");
+	//turn display
+	gturnt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/goaturn.png");
 	gturn.setTexture(gturnt);
-	gturn.setPosition(300.f, 5.f);
+	gturn.setScale(0.6f, 0.6f);
+	gturn.setPosition(450.f, 5.f);
 
-	tturnt.loadFromFile("/home/deadpoop/Studies/CppProjectSudip/baghchal_test/Project_CPP/images/tigerturn.png");
+	tturnt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/tigerturn.png");
 	tturn.setTexture(tturnt);
-	tturn.setPosition(350.f, 5.f);
+	tturn.setScale(0.6f, 0.6f);
+	tturn.setPosition(450.f, 5.f);
+	//killed display
+	killeds[1].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/one.png");
+	killeds[2].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/two.png");
+	killeds[3].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/three.png");
+	killeds[4].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/four.png");
+	killeds[0].loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/zero.png");
+
+	for (int i = 0; i < 6; i++) {
+		killed[i].setTexture(killeds[i]);
+		killed[i].setScale(0.5f, 0.5f);
+		killed[i].setPosition(450.f, 600.f);
+	}
 
 
+
+
+	//piece display
 
 	Texture igoat, itiger;
-	igoat.loadFromFile("/home/deadpoop/Studies/CppProjectSudip/baghchal_test/Project_CPP/images/goat.png");
-	itiger.loadFromFile("/home/deadpoop/Studies/CppProjectSudip/baghchal_test/Project_CPP/images/tiger.png");
+	igoat.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/goat.png");
+	itiger.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/tiger.png");
 
+	Sprite goatw, tigerw;
 	Texture goatwin, tigerwin;
-	goatwin.loadFromFile("/home/deadpoop/Studies/CppProjectSudip/baghchal_test/Project_CPP/images/gameoverBakhraa.png");
-	tigerwin.loadFromFile("/home/deadpoop/Studies/CppProjectSudip/baghchal_test/Project_CPP/images/gameoverBagh.png");
+	goatwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBakhraa.png");
+	tigerwin.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/gameoverBagh.png");
+	tigerw.setTexture(tigerwin);
+	goatw.setTexture(goatwin);
+	tigerw.setScale(0.7f, 0.7f);
+	goatw.setScale(0.7f, 0.7f);
+
+	//other display
+	ctigert.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/ctiger.png");
+	ctiger.setTexture(ctigert);
+	ctiger.setScale(0.6f, 0.6f);
+	ctiger.setPosition(40.f, 200.f);
+
+	cgoatt.loadFromFile("C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img/cgoat.png");
+	cgoat.setTexture(cgoatt);
+	cgoat.setScale(0.6f, 0.6f);
+	cgoat.setPosition(820.f, 220.f);
+	
 
 	VertexArray Borders(LineStrip, 5); // Drawing Borders
 	Borders[0].position = Vector2f(board_origin_x, board_origin_y);
@@ -439,16 +473,21 @@ int main()
 			//////
 			//////
 
-			window.draw(background);
-
+			   window.draw(background);
 			window.draw(V_lines);
 			window.draw(H_lines);
 			window.draw(Borders);
+			window.draw(ctiger);
+			window.draw(cgoat);
+
 			if (is_goats_turn)
 				window.draw(gturn);
 			else
-				window.draw(tturn);
-			for (int i = 0; i < 20; i++) // draw goats on board
+				window.draw(tturn);	
+			int t = bakhraa_killed;
+			window.draw(killed[t]);
+
+			for (int i = 0; i < 20; i++)		//draw goats on board
 			{
 				if (goats[i].getstate())
 				{
@@ -461,28 +500,23 @@ int main()
 				window.draw(tigers[i]);
 			}
 		}
-
-		else
-		{
-
-			CircleShape test;
-			test.setRadius(380.f);
-
-			test.setPosition(Vector2f(200.f, 50.f));
-			if (GameOver::has_goat_won)
+		
+		else {
+			
+		
+			
+		
+			if (has_goat_won)
 			{
-				test.setTexture(&goatwin);
+				window.draw(goatw);
 			}
 			else
 			{
-				test.setTexture(&tigerwin);
+				window.draw(tigerw);
 			}
-			window.draw(test);
-			// SHOWING GAME OVER SCREEN (work needs to be done)
-			//////
-			//////
-			//////
-			///////
+			
+			
+
 		}
 		window.display();
 	}
