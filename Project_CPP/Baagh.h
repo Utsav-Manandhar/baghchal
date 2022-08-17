@@ -1,16 +1,17 @@
 #pragma once
 #include"Animal.h"
 #include<iostream>
-enum tigerState { Free, trapped };
+//enum tigerState { Free, trapped };
 class Baagh : public Animal
 {
 private:
-	tigerState state = Free;
+	goatstate state = Free;
 public:
+	static int tiger_number;
 	Baagh();
-	tigerState getState();
+	goatstate getState();
 
-	void setState(tigerState s);
+	void setstate(goatstate s);
 
 
 };
