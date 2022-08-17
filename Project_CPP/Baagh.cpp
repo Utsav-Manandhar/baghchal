@@ -3,13 +3,12 @@
 #include"Baagh.h"
 
 
-Baagh::	Baagh() {}
-tigerState Baagh::getState()
-	{
-		return state;
-	}
-void Baagh::setState(tigerState s)
-	{
-		state = s;
-	}
-
+Baagh::Baagh() {}
+goatstate Baagh::getState()
+{
+	return state;
+}
+void Baagh::setstate(goatstate s)
+{
+	state = s;
+}
