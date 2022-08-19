@@ -5,7 +5,7 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
-#include"SFML/Audio.hpp"
+#include "SFML/Audio.hpp"
 #include "Animal.h"
 #include "Bakhraa.h"
 #include "Baagh.h"
@@ -27,7 +27,6 @@ Path filepath;
 class GameOver
 {
 private:
-
 public:
 	static bool has_goat_won;
 	static bool game_is_over;
@@ -71,21 +70,20 @@ public:
 			has_goat_won = true;
 			return true;
 		}
-		else return false;
+		else
+			return false;
 	}
 };
 
-
-
-//static  information about bakhraa
+// static  information about bakhraa
 int Bakhraa::bakhraa_count = 0;
 int Bakhraa::bakhraa_killed = 0;
 int Bakhraa::goat_number = -1;
 
-//static information about baagh
+// static information about baagh
 int Baagh::tiger_number = 0;
 
-//static information about turns and goats
+// static information about turns and goats
 bool GameOver::game_is_over = false;
 bool GameOver::bagh_can_move = false;
 bool GameOver::has_goat_won = true;
@@ -100,13 +98,13 @@ int x_selected = 0, y_selected = 0;
 int current_t_pos_x = 0, current_t_pos_y = 0;
 int new_t_pos_x = 0, new_t_pos_y = 0;
 int bali_ka_bakhraa = 0;
+int hunter_tiger = 0;
 int mid_tile_x = 0, mid_tile_y = 0;
 // extra information for bakhraa
 int x_gselected = 0, y_gselected = 0;
 int current_g_pos_x = 0, current_g_pos_y = 0;
 int new_g_pos_x = -1, new_g_pos_y = -1;
-bool is_multiplayer = true;
-
+bool is_multiplayer = false;
 
 ///////////// AI PART FUNCTIONS /////////////
 // int evaluate(int grid[][5], Bakhraa goats[], Baagh tigers[])
@@ -306,7 +304,7 @@ bool is_multiplayer = true;
 // }
 // int evaluate();
 
-void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5]);
+void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x_grid, int *y_grid, int grid[][5]);
 
 int main()
 {
@@ -330,78 +328,74 @@ int main()
 		y_grid[i] = board_origin_y + i * board_height / 5;
 	}
 
-	//to load image
+	// to load image
 	Sprite background, gturn, tturn, killed[6], ctiger, cgoat;
 	Texture backgroundtex, gturnt, tturnt, killeds[6], ctigert, cgoatt;
-	backgroundtex.loadFromFile(filepath.ImgPath+"/background.jpg");
+	backgroundtex.loadFromFile(filepath.ImgPath + "/background.jpg");
 	background.setTexture(backgroundtex);
 	background.setScale(1.2f, 1.2f);
-	//turn display
-	gturnt.loadFromFile(filepath.ImgPath+"/goaturn.png");
+	// turn display
+	gturnt.loadFromFile(filepath.ImgPath + "/goaturn.png");
 	gturn.setTexture(gturnt);
 	gturn.setScale(0.6f, 0.6f);
 	gturn.setPosition(450.f, 5.f);
 
-	tturnt.loadFromFile(filepath.ImgPath+"/tigerturn.png");
+	tturnt.loadFromFile(filepath.ImgPath + "/tigerturn.png");
 	tturn.setTexture(tturnt);
 	tturn.setScale(0.6f, 0.6f);
 	tturn.setPosition(450.f, 5.f);
-	//killed display
-	killeds[1].loadFromFile(filepath.ImgPath+"/one.png");
-	killeds[2].loadFromFile(filepath.ImgPath+"/two.png");
-	killeds[3].loadFromFile(filepath.ImgPath+"/three.png");
-	killeds[4].loadFromFile(filepath.ImgPath+"/four.png");
-	killeds[0].loadFromFile(filepath.ImgPath+"/zero.png");
+	// killed display
+	killeds[1].loadFromFile(filepath.ImgPath + "/one.png");
+	killeds[2].loadFromFile(filepath.ImgPath + "/two.png");
+	killeds[3].loadFromFile(filepath.ImgPath + "/three.png");
+	killeds[4].loadFromFile(filepath.ImgPath + "/four.png");
+	killeds[0].loadFromFile(filepath.ImgPath + "/zero.png");
 
-	for (int i = 0; i < 6; i++) {
+	for (int i = 0; i < 6; i++)
+	{
 		killed[i].setTexture(killeds[i]);
 		killed[i].setScale(0.5f, 0.5f);
 		killed[i].setPosition(450.f, 600.f);
 	}
 
-
-
-
-	//piece display
+	// piece display
 
 	Texture igoat, itiger;
-	igoat.loadFromFile(filepath.ImgPath+"/goat.png");
-	itiger.loadFromFile(filepath.ImgPath+"/tiger.png");
+	igoat.loadFromFile(filepath.ImgPath + "/goat.png");
+	itiger.loadFromFile(filepath.ImgPath + "/tiger.png");
 
 	Sprite goatw, tigerw;
 	Texture goatwin, tigerwin;
-	goatwin.loadFromFile(filepath.ImgPath+"/gameoverBakhraa.png");
-	tigerwin.loadFromFile(filepath.ImgPath+"/gameoverBagh.png");
+	goatwin.loadFromFile(filepath.ImgPath + "/gameoverBakhraa.png");
+	tigerwin.loadFromFile(filepath.ImgPath + "/gameoverBagh.png");
 	tigerw.setTexture(tigerwin);
 	goatw.setTexture(goatwin);
 	tigerw.setScale(0.7f, 0.7f);
 	goatw.setScale(0.7f, 0.7f);
 
-	//other display
-	ctigert.loadFromFile(filepath.ImgPath+"/ctiger.png");
+	// other display
+	ctigert.loadFromFile(filepath.ImgPath + "/ctiger.png");
 	ctiger.setTexture(ctigert);
 	ctiger.setScale(0.6f, 0.6f);
 	ctiger.setPosition(40.f, 200.f);
 
-	cgoatt.loadFromFile(filepath.ImgPath+"/cgoat.png");
+	cgoatt.loadFromFile(filepath.ImgPath + "/cgoat.png");
 	cgoat.setTexture(cgoatt);
 	cgoat.setScale(0.6f, 0.6f);
 	cgoat.setPosition(820.f, 220.f);
 
-
-	//sound 
+	// sound
 
 	sf::SoundBuffer stiger;
 	sf::Music bsound;
-	
-	stiger.loadFromFile(filepath.SoundPath+"/tiger_roar.wav");
-	bsound.openFromFile(filepath.SoundPath+"/bsound.ogg");
-	sf::Sound soundt;
-	
-	soundt.setBuffer(stiger);
-	
-	bsound.play();
 
+	stiger.loadFromFile(filepath.SoundPath + "/tiger_roar.wav");
+	bsound.openFromFile(filepath.SoundPath + "/bsound.ogg");
+	sf::Sound soundt;
+
+	soundt.setBuffer(stiger);
+
+	bsound.play();
 
 	VertexArray Borders(LineStrip, 5); // Drawing Borders
 	Borders[0].position = Vector2f(board_origin_x, board_origin_y);
@@ -471,17 +465,18 @@ int main()
 
 	while (window.isOpen())
 	{
-		
+
 		Event event;
 		while (window.pollEvent(event))
 		{
-		
+
 			if (event.type == Event::Closed)
 				window.close();
 			if (event.type == Event::KeyPressed && event.key.code == Keyboard::Escape)
 				window.close();
 		}
-		if (tick_speed == 2 || is_multiplayer) {
+		if (tick_speed == 2 || is_multiplayer)
+		{
 
 			tick_speed = 0;
 			update_events(window, goats, tigers, x_grid, y_grid, grid);
@@ -492,36 +487,35 @@ int main()
 		}
 
 		window.clear(Color::Black);
-		
+
 		if (!GameOver::game_is_over)
 		{
 			// SHOWING GAME UI unless game is over (work needs to be done)
 			/////
 			//////
 			//////
-			
+
 			window.draw(background);
 			window.draw(V_lines);
 			window.draw(H_lines);
 			window.draw(Borders);
-	
+
 			window.draw(ctiger);
 			window.draw(cgoat);
-			
-			
-			if (is_goats_turn) {
+
+			if (is_goats_turn)
+			{
 				window.draw(gturn);
-				
 			}
-			else {
+			else
+			{
 				window.draw(tturn);
 				soundt.play();
-				
 			}
 			int t = Bakhraa::getDeathToll();
 			window.draw(killed[t]);
 
-			for (int i = 0; i < 20; i++)		//draw goats on board
+			for (int i = 0; i < 20; i++) // draw goats on board
 			{
 				if (goats[i].getstate())
 				{
@@ -535,10 +529,8 @@ int main()
 			}
 		}
 
-		else {
-
-
-
+		else
+		{
 
 			if (GameOver::has_goat_won)
 			{
@@ -548,16 +540,13 @@ int main()
 			{
 				window.draw(tigerw);
 			}
-
-
-
 		}
-	
+
 		window.display();
 	}
 }
 
-void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5])
+void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x_grid, int *y_grid, int grid[][5])
 
 { // mouse positon to record in pixels
 	int x_m = Mouse::getPosition(window).x, y_m = Mouse::getPosition(window).y;
@@ -823,7 +812,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 						}
 
 						goats[bali_ka_bakhraa].setstate(Dead);
-						Bakhraa::increaseDeathToll();							 // killing said goat
+						Bakhraa::increaseDeathToll();				 // killing said goat
 						goats[bali_ka_bakhraa].set_Position(-1, -1); // getting rid of the body
 						grid[mid_tile_x][mid_tile_y] = 0;			 // updating grid
 
@@ -942,6 +931,140 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 			}
 			else if (!is_goats_turn)
 			{
+				for (int i = 0; i < 5; i++)
+				{
+					for (int j = 0; j < 5; j++)
+					{
+						if (!is_goats_turn and ((i == 0 and j == 0) or (i == 0 and j == 4) or (i == 4 and j == 0) or (i == 4 and j == 4)))
+						{ // skipped for corners
+							continue;
+						}
+						if (!is_goats_turn and grid[i][j] == 1)
+						{
+							if (((i - 1) >= 0 and (j - 1) >= 0 and (i + 1) <= 4 and (j + 1) <= 4) and grid[i - 1][j - 1] == 2 and grid[i + 1][j + 1] == 0) // top left bagh, bottom right empty
+							{
+								for (int goat_i = 0; goat_i < 20; goat_i++)
+								{
+									if (goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j)
+									{
+										bali_ka_bakhraa = goat_i;
+										break;
+									}
+								}
+								for (int tiger_i = 0; tiger_i < 4; tiger_i++)
+								{
+									if (tigers[tiger_i].get_X() == (i - 1) and tigers[tiger_i].get_Y() == (j - 1))
+									{
+										hunter_tiger = tiger_i;
+										break;
+									}
+								}
+								goats[bali_ka_bakhraa].setstate(Dead);
+								Bakhraa::increaseDeathToll();
+								goats[bali_ka_bakhraa].set_Position(-1, -1);
+								grid[i][j] = 0;
+
+								grid[i - 1][j - 1] = 0;
+								grid[i + 1][j + 1] = 2;
+								tigers[hunter_tiger].set_Position(i + 1, j + 1);
+								tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
+								is_goats_turn = true;
+								continue;
+							}
+							// if (( i>=1 and i<=3 and j>=0 and j<=4 ) and grid[i - 1][j] == 2 and grid[i + 1][j] == 0) // top bagh, bottom empty
+							// {
+							// 	for (int goat_i = 0; goat_i < 20; goat_i++)
+							// 	{
+							// 		if (goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j)
+							// 		{
+							// 			bali_ka_bakhraa = goat_i;
+							// 			break;
+							// 		}
+							// 	}
+							// 	for (int tiger_i = 0; tiger_i < 4; tiger_i++)
+							// 	{
+							// 		if (tigers[tiger_i].get_X() == (i - 1) and tigers[tiger_i].get_Y() == (j))
+							// 		{
+							// 			hunter_tiger = tiger_i;
+							// 			break;
+							// 		}
+							// 	}
+							// 	goats[bali_ka_bakhraa].setstate(Dead);
+							// 	Bakhraa::increaseDeathToll();
+							// 	goats[bali_ka_bakhraa].set_Position(-1, -1);
+							// 	grid[i][j] = 0;
+
+							// 	grid[i - 1][j] = 0;
+							// 	grid[i + 1][j] = 2;
+							// 	tigers[hunter_tiger].set_Position(i + 1, j);
+							// 	tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
+							// 	is_goats_turn = true;
+							// 	continue;
+							// }
+							// if( ( (i-1)>=0 and (j+1)<=4 and (i+1)<=4 and (j-1)>=0 ) and grid[i-1][j+1] == 2 and grid[i+1][j-1] == 0 ) //top right bagh, bottom left empty
+							// {
+							// 	for( int goat_i =0; goat_i < 20; goat_i++ )
+							// 	{
+							// 		if( goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j )
+							// 		{
+							// 			bali_ka_bakhraa = goat_i;
+							// 			break;
+							// 		}
+							// 	}
+							// 	for( int tiger_i = 0; tiger_i<4; tiger_i++)
+							// 	{
+							// 		if( tigers[tiger_i].get_X() == (i-1) and tigers[tiger_i].get_Y() == (j+1) )
+							// 		{
+							// 			hunter_tiger = tiger_i;
+							// 			break;
+							// 		}
+							// 	}
+							// 	goats[bali_ka_bakhraa].setstate(Dead);
+							// 	Bakhraa::increaseDeathToll();
+							// 	goats[bali_ka_bakhraa].set_Position(-1,-1);
+							// 	grid[i][j] = 0;
+
+							// 	grid[i-1][j+1] = 0;
+							// 	grid[i+1][j-1] = 2;
+							// 	tigers[hunter_tiger].set_Position(i+1,j-1);
+							// 	tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
+							// 	is_goats_turn = true;
+							// 	continue;
+							// }
+							// if( ( (i)>=0 and (j+1)<=4 and (i)<=4 and (j-1)>=0 ) and grid[i][j+1] == 2 and grid[i][j-1] == 0 ) //right bagh, left empty
+							// {
+							// 	for( int goat_i =0; goat_i < 20; goat_i++ )
+							// 	{
+							// 		if( goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j )
+							// 		{
+							// 			bali_ka_bakhraa = goat_i;
+							// 			break;
+							// 		}
+							// 	}
+							// 	for( int tiger_i = 0; tiger_i<4; tiger_i++)
+							// 	{
+							// 		if( tigers[tiger_i].get_X() == (i) and tigers[tiger_i].get_Y() == (j+1) )
+							// 		{
+							// 			hunter_tiger = tiger_i;
+							// 			break;
+							// 		}
+							// 	}
+							// 	goats[bali_ka_bakhraa].setstate(Dead);
+							// 	Bakhraa::increaseDeathToll();
+							// 	goats[bali_ka_bakhraa].set_Position(-1,-1);
+							// 	grid[i][j] = 0;
+
+							// 	grid[i][j+1] = 0;
+							// 	grid[i][j-1] = 2;
+							// 	tigers[hunter_tiger].set_Position(i,j-1);
+							// 	tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
+							// 	is_goats_turn = true;
+							// 	continue;
+							// }
+						}
+					}
+				}
+
 				for (int j = -2; j < 3; j++)
 				{
 					for (int k = -2; k < 3; k++)
