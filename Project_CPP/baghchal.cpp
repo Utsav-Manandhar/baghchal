@@ -18,8 +18,8 @@ int tick_speed = 0;
 class Path
 {
 public:
-	string ImgPath = "C:/Users/Ranjan/Desktop/images";
-	string SoundPath = "C:/Users/Ranjan/Desktop/sounds";
+	string ImgPath = "C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img";
+	string SoundPath = "C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img";
 };
 Path filepath;
 
@@ -103,7 +103,7 @@ int mid_tile_x = 0, mid_tile_y = 0;
 int x_gselected = 0, y_gselected = 0;
 int current_g_pos_x = 0, current_g_pos_y = 0;
 int new_g_pos_x = -1, new_g_pos_y = -1;
-bool is_multiplayer = false;
+bool is_multiplayer = true;
 
 ///////////// AI PART FUNCTIONS /////////////
 // int evaluate(int grid[][5], Bakhraa goats[], Baagh tigers[])
@@ -328,8 +328,8 @@ int main()
 	}
 
 	// to load image
-	Sprite background, gturn, tturn, killed[6], ctiger, cgoat;
-	Texture backgroundtex, gturnt, tturnt, killeds[6], ctigert, cgoatt;
+	Sprite background, gturn, tturn, killed[6], ctiger, cgoat,board;
+	Texture backgroundtex, gturnt, tturnt, killeds[6], ctigert, cgoatt,boardt;
 	backgroundtex.loadFromFile(filepath.ImgPath + "/background.jpg");
 	background.setTexture(backgroundtex);
 	background.setScale(1.2f, 1.2f);
@@ -357,6 +357,11 @@ int main()
 		killed[i].setPosition(450.f, 600.f);
 	}
 
+
+	boardt.loadFromFile(filepath.ImgPath + "/board.png");
+	board.setTexture(boardt);
+	board.setScale(1.78f, 1.8f);
+	board.setPosition(398.f, 200.f);
 	// piece display
 
 	Texture igoat, itiger;
@@ -498,7 +503,7 @@ int main()
 			window.draw(V_lines);
 			window.draw(H_lines);
 			window.draw(Borders);
-
+			window.draw(board);
 			window.draw(ctiger);
 			window.draw(cgoat);
 
@@ -696,7 +701,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 						x_selected = goats[Bakhraa::goat_number].getPosition().x;
 						y_selected = goats[Bakhraa::goat_number].getPosition().y;
 					}
-					else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0 && mouse_clicked_once && !(((current_g_pos_x+current_g_pos_y)%2==1)&& abs(new_g_pos_x - current_g_pos_x) == 1 && abs(new_g_pos_y - current_g_pos_y) == 1))
+					else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0 && mouse_clicked_once && !(((current_g_pos_x + current_g_pos_y) % 2 == 1) && abs(new_g_pos_x - current_g_pos_x) == 1 && abs(new_g_pos_y - current_g_pos_y) == 1))
 					{ // if mouse is not clicked
 						piece_is_clicked = false;
 						if (current_g_pos_x != new_g_pos_x || current_g_pos_y != new_g_pos_y) // if you pick up the piece and put it back where it was
@@ -940,7 +945,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 						}
 						else if (!is_goats_turn and grid[i][j] == 1)
 						{
-							if (i >= 1 and i <= 3 and j >= 1 and j <= 3 and grid[i - 1][j - 1] == 2 and grid[i + 1][j + 1] == 0 and ((i+j)%2==0)) // top left bagh, bottom right empty
+							if (i >= 1 and i <= 3 and j >= 1 and j <= 3 and grid[i - 1][j - 1] == 2 and grid[i + 1][j + 1] == 0 and ((i + j) % 2 == 0)) // top left bagh, bottom right empty
 							{
 								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
@@ -1000,7 +1005,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 								is_goats_turn = true;
 								continue;
 							}
-							if (((i - 1) >= 0 and (j + 1) <= 4 and (i + 1) <= 4 and (j - 1) >= 0) and grid[i - 1][j + 1] == 2 and grid[i + 1][j - 1] == 0 and ((i+j)%2==0)) //tried for top right bagh, bottom left empty, don't know what has become
+							if (((i - 1) >= 0 and (j + 1) <= 4 and (i + 1) <= 4 and (j - 1) >= 0) and grid[i - 1][j + 1] == 2 and grid[i + 1][j - 1] == 0 and ((i + j) % 2 == 0)) //tried for top right bagh, bottom left empty, don't know what has become
 							{
 								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
@@ -1112,7 +1117,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 								new_t_pos_y = tiger_i_position_y + k;
 								if ((abs(j) == 2 or abs(k) == 2) and grid[tiger_i_position_x + j][tiger_i_position_y + k] == 0 and grid[tiger_i_position_x + j / 2][tiger_i_position_y + k / 2] == 1) // Tiger moves to eat goat
 								{																																									  // If tiger is in a position to eat
-									if (j == k or j == -k && ((tiger_i_position_x+tiger_i_position_y)%2==0))
+									if (j == k or j == -k && ((tiger_i_position_x + tiger_i_position_y) % 2 == 0))
 									{ //////Diagonal//////
 										mid_tile_x = min(tiger_i_position_x, new_t_pos_x) + 1;
 										mid_tile_y = min(tiger_i_position_y, new_t_pos_y) + 1;
