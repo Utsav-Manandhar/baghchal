@@ -18,10 +18,9 @@ int tick_speed = 0;
 class Path
 {
 public:
-	string ImgPath = "/home/deadpoop/Studies/3rdSemCPP/CppProject/baghchal/Project_CPP/images";
-	string SoundPath = "/home/deadpoop/Studies/3rdSemCPP/CppProject/baghchal/Project_CPP/sounds";
+	string ImgPath = "C:/Users/Ranjan/Desktop/images";
+	string SoundPath = "C:/Users/Ranjan/Desktop/sounds";
 };
-
 Path filepath;
 
 class GameOver
@@ -104,7 +103,7 @@ int mid_tile_x = 0, mid_tile_y = 0;
 int x_gselected = 0, y_gselected = 0;
 int current_g_pos_x = 0, current_g_pos_y = 0;
 int new_g_pos_x = -1, new_g_pos_y = -1;
-bool is_multiplayer = false;
+bool is_multiplayer = true;
 
 ///////////// AI PART FUNCTIONS /////////////
 // int evaluate(int grid[][5], Bakhraa goats[], Baagh tigers[])
@@ -304,7 +303,7 @@ bool is_multiplayer = false;
 // }
 // int evaluate();
 
-void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x_grid, int *y_grid, int grid[][5]);
+void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5]);
 
 int main()
 {
@@ -546,7 +545,7 @@ int main()
 	}
 }
 
-void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x_grid, int *y_grid, int grid[][5])
+void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x_grid, int* y_grid, int grid[][5])
 
 { // mouse positon to record in pixels
 	int x_m = Mouse::getPosition(window).x, y_m = Mouse::getPosition(window).y;
@@ -697,7 +696,7 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 						x_selected = goats[Bakhraa::goat_number].getPosition().x;
 						y_selected = goats[Bakhraa::goat_number].getPosition().y;
 					}
-					else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0 && mouse_clicked_once)
+					else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0 && mouse_clicked_once && !(((current_g_pos_x+current_g_pos_y)%2==1)&& abs(new_g_pos_x - current_g_pos_x) == 1 && abs(new_g_pos_y - current_g_pos_y) == 1))
 					{ // if mouse is not clicked
 						piece_is_clicked = false;
 						if (current_g_pos_x != new_g_pos_x || current_g_pos_y != new_g_pos_y) // if you pick up the piece and put it back where it was
@@ -764,7 +763,7 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 					x_selected = tigers[Baagh::tiger_number].getPosition().x;
 					y_selected = tigers[Baagh::tiger_number].getPosition().y;
 				}
-				else if (abs(new_t_pos_x - current_t_pos_x) <= 1 && abs(new_t_pos_y - current_t_pos_y) <= 1 && grid[new_t_pos_x][new_t_pos_y] == 0)
+				else if (abs(new_t_pos_x - current_t_pos_x) <= 1 && abs(new_t_pos_y - current_t_pos_y) <= 1 && grid[new_t_pos_x][new_t_pos_y] == 0 && !(((current_t_pos_x + current_t_pos_y) % 2 == 1) && abs(new_t_pos_x - current_t_pos_x) == 1 && abs(new_t_pos_y - current_t_pos_y) == 1))
 				{ // if mouse is not clicked
 					piece_is_clicked = false;
 					if (current_t_pos_x != new_t_pos_x || current_t_pos_y != new_t_pos_y) // if you pick up the piece and put it back where it was
@@ -780,7 +779,7 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 					tigers[Baagh::tiger_number].setPosition(Vector2f(x_grid[tigers[Baagh::tiger_number].get_X()], y_grid[tigers[Baagh::tiger_number].get_Y()]));
 					is_current_recorded = false;
 				}
-				else if (abs(new_t_pos_x - current_t_pos_x) <= 2 && abs(new_t_pos_y - current_t_pos_y) <= 2 && grid[new_t_pos_x][new_t_pos_y] == 0)
+				else if (((abs(new_t_pos_x - current_t_pos_x) == 2 && abs(new_t_pos_y - current_t_pos_y) == 0) || (abs(new_t_pos_x - current_t_pos_x) == 0 && abs(new_t_pos_y - current_t_pos_y) == 2) || (abs(new_t_pos_x - current_t_pos_x) == 2 && abs(new_t_pos_y - current_t_pos_y) == 2)) && grid[new_t_pos_x][new_t_pos_y] == 0&&!(((current_t_pos_x + current_t_pos_y) % 2 == 1) && abs(new_t_pos_x - current_t_pos_x) == 2 && abs(new_t_pos_y - current_t_pos_y) == 2))
 				{ // if baagh tries to eat a goat
 					piece_is_clicked = false;
 					is_current_recorded = false;
@@ -894,7 +893,7 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 						x_selected = goats[Bakhraa::goat_number].getPosition().x;
 						y_selected = goats[Bakhraa::goat_number].getPosition().y;
 					}
-					else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0 && mouse_clicked_once)
+					else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0 && mouse_clicked_once && !(((current_g_pos_x + current_g_pos_y) % 2 == 1) && abs(new_g_pos_x - current_g_pos_x) == 1 && abs(new_g_pos_y - current_g_pos_y) == 1))
 					{ // if mouse is not clicked
 						piece_is_clicked = false;
 						if (current_g_pos_x != new_g_pos_x || current_g_pos_y != new_g_pos_y) // if you pick up the piece and put it back where it was
@@ -941,7 +940,7 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 						}
 						else if (!is_goats_turn and grid[i][j] == 1)
 						{
-							if ( i>=1 and i<=3 and j>=1 and j<=3 and grid[i - 1][j - 1] == 2 and grid[i + 1][j + 1] == 0) // top left bagh, bottom right empty
+							if (i >= 1 and i <= 3 and j >= 1 and j <= 3 and grid[i - 1][j - 1] == 2 and grid[i + 1][j + 1] == 0) // top left bagh, bottom right empty
 							{
 								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
@@ -971,7 +970,7 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 								is_goats_turn = true;
 								continue;
 							}
-							else if ( i>=1 and i<=3 and j>=0 and j<=4 and grid[i - 1][j] == 2 and grid[i + 1][j] == 0) //tried for top bagh, bottom empty, don't know what has become
+							else if (i >= 1 and i <= 3 and j >= 0 and j <= 4 and grid[i - 1][j] == 2 and grid[i + 1][j] == 0) //tried for top bagh, bottom empty, don't know what has become
 							{
 								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
@@ -1001,19 +1000,19 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 								is_goats_turn = true;
 								continue;
 							}
-							if( ( (i-1)>=0 and (j+1)<=4 and (i+1)<=4 and (j-1)>=0 ) and grid[i-1][j+1] == 2 and grid[i+1][j-1] == 0 ) //tried for top right bagh, bottom left empty, don't know what has become
+							if (((i - 1) >= 0 and (j + 1) <= 4 and (i + 1) <= 4 and (j - 1) >= 0) and grid[i - 1][j + 1] == 2 and grid[i + 1][j - 1] == 0) //tried for top right bagh, bottom left empty, don't know what has become
 							{
-								for( int goat_i =0; goat_i < 20; goat_i++ )
+								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
-									if( goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j )
+									if (goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j)
 									{
 										bali_ka_bakhraa = goat_i;
 										break;
 									}
 								}
-								for( int tiger_i = 0; tiger_i<4; tiger_i++)
+								for (int tiger_i = 0; tiger_i < 4; tiger_i++)
 								{
-									if( tigers[tiger_i].get_X() == (i-1) and tigers[tiger_i].get_Y() == (j+1) )
+									if (tigers[tiger_i].get_X() == (i - 1) and tigers[tiger_i].get_Y() == (j + 1))
 									{
 										hunter_tiger = tiger_i;
 										break;
@@ -1021,29 +1020,29 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 								}
 								goats[bali_ka_bakhraa].setstate(Dead);
 								Bakhraa::increaseDeathToll();
-								goats[bali_ka_bakhraa].set_Position(-1,-1);
+								goats[bali_ka_bakhraa].set_Position(-1, -1);
 								grid[i][j] = 0;
 
-								grid[i-1][j+1] = 0;
-								grid[i+1][j-1] = 2;
-								tigers[hunter_tiger].set_Position(i+1,j-1);
+								grid[i - 1][j + 1] = 0;
+								grid[i + 1][j - 1] = 2;
+								tigers[hunter_tiger].set_Position(i + 1, j - 1);
 								tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
 								is_goats_turn = true;
 								continue;
 							}
-							if( ( (i)>=0 and (j+1)<=4 and (i)<=4 and (j-1)>=0 ) and grid[i][j+1] == 2 and grid[i][j-1] == 0 ) //tried for right bagh, left empty, don't know what has become xD
+							if (((i) >= 0 and (j + 1) <= 4 and (i) <= 4 and (j - 1) >= 0) and grid[i][j + 1] == 2 and grid[i][j - 1] == 0) //tried for right bagh, left empty, don't know what has become xD
 							{
-								for( int goat_i =0; goat_i < 20; goat_i++ )
+								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
-									if( goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j )
+									if (goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j)
 									{
 										bali_ka_bakhraa = goat_i;
 										break;
 									}
 								}
-								for( int tiger_i = 0; tiger_i<4; tiger_i++)
+								for (int tiger_i = 0; tiger_i < 4; tiger_i++)
 								{
-									if( tigers[tiger_i].get_X() == (i) and tigers[tiger_i].get_Y() == (j+1) )
+									if (tigers[tiger_i].get_X() == (i) and tigers[tiger_i].get_Y() == (j + 1))
 									{
 										hunter_tiger = tiger_i;
 										break;
@@ -1051,29 +1050,29 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 								}
 								goats[bali_ka_bakhraa].setstate(Dead);
 								Bakhraa::increaseDeathToll();
-								goats[bali_ka_bakhraa].set_Position(-1,-1);
+								goats[bali_ka_bakhraa].set_Position(-1, -1);
 								grid[i][j] = 0;
 
-								grid[i][j+1] = 0;
-								grid[i][j-1] = 2;
-								tigers[hunter_tiger].set_Position(i,j-1);
+								grid[i][j + 1] = 0;
+								grid[i][j - 1] = 2;
+								tigers[hunter_tiger].set_Position(i, j - 1);
 								tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
 								is_goats_turn = true;
 								continue;
 							}
-							if( grid[i][j-1] ==2 and grid[i][j+1] ==0 and i >= 0 and i <= 4 and j >=1 and j<=3 ) //tried for left bagh, right empty, don't know what has become xD
+							if (grid[i][j - 1] == 2 and grid[i][j + 1] == 0 and i >= 0 and i <= 4 and j >= 1 and j <= 3) //tried for left bagh, right empty, don't know what has become xD
 							{
-								for(int goat_i =0; goat_i<20; goat_i++ )
+								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
-									if(goats[goat_i].get_X() ==i and goats[goat_i].get_Y() == j )
+									if (goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j)
 									{
 										bali_ka_bakhraa = goat_i;
 										break;
 									}
 								}
-								for(int tiger_i=0; tiger_i<4; tiger_i++)
+								for (int tiger_i = 0; tiger_i < 4; tiger_i++)
 								{
-									if(tigers[tiger_i].get_X() == i and tigers[tiger_i].get_Y() == (j-1) )
+									if (tigers[tiger_i].get_X() == i and tigers[tiger_i].get_Y() == (j - 1))
 									{
 										hunter_tiger = tiger_i;
 										break;
@@ -1081,12 +1080,12 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 								}
 								goats[bali_ka_bakhraa].setstate(Dead);
 								Bakhraa::increaseDeathToll();
-								goats[bali_ka_bakhraa].set_Position(-1,-1);
+								goats[bali_ka_bakhraa].set_Position(-1, -1);
 								grid[i][j] = 0;
 
-								grid[i][j-1] =0;
-								grid[i][j+1] =2;
-								tigers[hunter_tiger].set_Position(i,j+1);
+								grid[i][j - 1] = 0;
+								grid[i][j + 1] = 2;
+								tigers[hunter_tiger].set_Position(i, j + 1);
 								tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
 								is_goats_turn = true;
 								continue;
