@@ -18,8 +18,8 @@ int tick_speed = 0;
 class Path
 {
 public:
-	string ImgPath = "C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img";
-	string SoundPath = "C:/Users/Subham Shrestha/Documents/Visual Studio 2022/code/baghchal/img";
+	string ImgPath = "C:/Users/Ranjan/Desktop/images";
+	string SoundPath = "C:/Users/Ranjan/Desktop/sounds";
 };
 Path filepath;
 
@@ -30,6 +30,7 @@ public:
 	static bool has_goat_won;
 	static bool game_is_over;
 	static bool bagh_can_move;
+	static bool is_main_menu;
 	bool IsGameOver(int grid[][5], Bakhraa goats[], Baagh tigers[])
 	{
 		if (Bakhraa::getDeathToll() > 4)
@@ -86,6 +87,7 @@ int Baagh::tiger_number = 0;
 bool GameOver::game_is_over = false;
 bool GameOver::bagh_can_move = false;
 bool GameOver::has_goat_won = true;
+bool GameOver::is_main_menu = true;
 
 // information about piece moving
 bool is_goats_turn = true;
@@ -103,7 +105,7 @@ int mid_tile_x = 0, mid_tile_y = 0;
 int x_gselected = 0, y_gselected = 0;
 int current_g_pos_x = 0, current_g_pos_y = 0;
 int new_g_pos_x = -1, new_g_pos_y = -1;
-bool is_multiplayer = true;
+bool is_multiplayer = false;
 
 ///////////// AI PART FUNCTIONS /////////////
 // int evaluate(int grid[][5], Bakhraa goats[], Baagh tigers[])
@@ -328,8 +330,8 @@ int main()
 	}
 
 	// to load image
-	Sprite background, gturn, tturn, killed[6], ctiger, cgoat,board,mainmenu;
-	Texture backgroundtex, gturnt, tturnt, killeds[6], ctigert, cgoatt,boardt,mainmenut;
+	Sprite background, gturn, tturn, killed[6], ctiger, cgoat, board, mainmenu;
+	Texture backgroundtex, gturnt, tturnt, killeds[6], ctigert, cgoatt, boardt, mainmenut;
 	backgroundtex.loadFromFile(filepath.ImgPath + "/background.jpg");
 	background.setTexture(backgroundtex);
 	background.setScale(1.2f, 1.2f);
@@ -352,6 +354,9 @@ int main()
 	killeds[3].loadFromFile(filepath.ImgPath + "/three.png");
 	killeds[4].loadFromFile(filepath.ImgPath + "/four.png");
 	killeds[0].loadFromFile(filepath.ImgPath + "/zero.png");
+	
+
+
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -360,11 +365,11 @@ int main()
 		killed[i].setPosition(450.f, 600.f);
 	}
 
-
 	boardt.loadFromFile(filepath.ImgPath + "/board.png");
 	board.setTexture(boardt);
 	board.setScale(1.78f, 1.8f);
 	board.setPosition(398.f, 200.f);
+
 	// piece display
 
 	Texture igoat, itiger;
@@ -411,40 +416,40 @@ int main()
 	Borders[3].position = Vector2f(board_origin_x, board_origin_y + board_height);
 	Borders[4].position = Vector2f(board_origin_x, board_origin_y);
 
-	VertexArray V_lines(LineStrip, 8); // Drawing Vertical lines
-	VertexArray H_lines(LineStrip, 8); // Drawing Horizontal lines
+	//VertexArray V_lines(LineStrip, 8); // Drawing Vertical lines
+	//VertexArray H_lines(LineStrip, 8); // Drawing Horizontal lines
 
-	for (int i = 1, j = 0; i < 5; i++, j++)
-	{
-		if (i % 2 == 1)
-		{
-			V_lines[j].position = Vector2f(x_grid[i], y_grid[0]);
-			j++;
-			V_lines[j].position = Vector2f(x_grid[i], y_grid[4] + board_height / 5);
-		}
-		else
-		{
-			V_lines[j].position = Vector2f(x_grid[i], y_grid[4] + board_height / 5);
-			j++;
-			V_lines[j].position = Vector2f(x_grid[i], y_grid[0]);
-		}
-	}
+	//for (int i = 1, j = 0; i < 5; i++, j++)
+	//{
+	//	if (i % 2 == 1)
+	//	{
+	//		V_lines[j].position = Vector2f(x_grid[i], y_grid[0]);
+	//		j++;
+	//		V_lines[j].position = Vector2f(x_grid[i], y_grid[4] + board_height / 5);
+	//	}
+	//	else
+	//	{
+	//		V_lines[j].position = Vector2f(x_grid[i], y_grid[4] + board_height / 5);
+	//		j++;
+	//		V_lines[j].position = Vector2f(x_grid[i], y_grid[0]);
+	//	}
+	//}
 
-	for (int i = 1, j = 0; i < 5; i++, j++)
-	{
-		if (i % 2 == 1)
-		{
-			H_lines[j].position = Vector2f(x_grid[0], y_grid[i]);
-			j++;
-			H_lines[j].position = Vector2f(x_grid[4] + board_width / 5, y_grid[i]);
-		}
-		else
-		{
-			H_lines[j].position = Vector2f(x_grid[4] + board_width / 5, y_grid[i]);
-			j++;
-			H_lines[j].position = Vector2f(x_grid[0], y_grid[i]);
-		}
-	}
+	//for (int i = 1, j = 0; i < 5; i++, j++)
+	//{
+	//	if (i % 2 == 1)
+	//	{
+	//		H_lines[j].position = Vector2f(x_grid[0], y_grid[i]);
+	//		j++;
+	//		H_lines[j].position = Vector2f(x_grid[4] + board_width / 5, y_grid[i]);
+	//	}
+	//	else
+	//	{
+	//		H_lines[j].position = Vector2f(x_grid[4] + board_width / 5, y_grid[i]);
+	//		j++;
+	//		H_lines[j].position = Vector2f(x_grid[0], y_grid[i]);
+	//	}
+	//}
 	Bakhraa goats[20]; // Initializing goats
 	for (int i = 0; i < 20; i++)
 	{
@@ -469,7 +474,7 @@ int main()
 		tigers[i].setPosition(Vector2f(x_grid[tigers[i].get_X()], y_grid[tigers[i].get_Y()]));
 		grid[tigers[i].get_X()][tigers[i].get_Y()] = 2;
 	}
-
+	
 	while (window.isOpen())
 	{
 
@@ -495,44 +500,53 @@ int main()
 
 		window.clear(Color::Black);
 
-		if (!GameOver::game_is_over)
+		if (!GameOver::game_is_over )
 		{
 			// SHOWING GAME UI unless game is over (work needs to be done)
 			/////
 			//////
 			//////
 
-			window.draw(background);
-			window.draw(V_lines);
-			window.draw(H_lines);
-			window.draw(Borders);
-			window.draw(board);
-			window.draw(ctiger);
-			window.draw(cgoat);
-		
-			if (is_goats_turn)
+			
+			if (GameOver::is_main_menu)
 			{
-				window.draw(gturn);
+				window.draw(mainmenu);
+	
 			}
 			else
 			{
-				window.draw(tturn);
-				soundt.play();
-			}
-			int t = Bakhraa::getDeathToll();
-			window.draw(killed[t]);
+				window.draw(background);
+				//window.draw(V_lines);
+				//window.draw(H_lines);
+				//window.draw(Borders);
+				window.draw(board);
+				window.draw(ctiger);
+				window.draw(cgoat);
 
-			for (int i = 0; i < 20; i++) // draw goats on board
-			{
-				if (goats[i].getstate())
+				if (is_goats_turn)
 				{
-					window.draw(goats[i]);
+					window.draw(gturn);
 				}
-			}
-			for (int i = 0; i < 4; i++)
+				else
+				{
+					window.draw(tturn);
+					soundt.play();
+				}
+				int t = Bakhraa::getDeathToll();
+				window.draw(killed[t]);
 
-			{
-				window.draw(tigers[i]);
+				for (int i = 0; i < 20; i++) // draw goats on board
+				{
+					if (goats[i].getstate())
+					{
+						window.draw(goats[i]);
+					}
+				}
+				for (int i = 0; i < 4; i++)
+
+				{
+					window.draw(tigers[i]);
+				}
 			}
 		}
 
@@ -650,7 +664,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 
 	// }
 
-	if (!GameOver::game_is_over)
+	if (!GameOver::game_is_over && !GameOver::is_main_menu)
 	{
 		if (is_multiplayer)
 		{
@@ -704,7 +718,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 						x_selected = goats[Bakhraa::goat_number].getPosition().x;
 						y_selected = goats[Bakhraa::goat_number].getPosition().y;
 					}
-					else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0 && mouse_clicked_once && !(((current_g_pos_x + current_g_pos_y) % 2 == 1) && abs(new_g_pos_x - current_g_pos_x) == 1 && abs(new_g_pos_y - current_g_pos_y) == 1))
+					else if (abs(new_g_pos_x - current_g_pos_x) <= 1 && abs(new_g_pos_y - current_g_pos_y) <= 1 && grid[new_g_pos_x][new_g_pos_y] == 0 && mouse_clicked_once && !(((current_g_pos_x+current_g_pos_y)%2==1)&& abs(new_g_pos_x - current_g_pos_x) == 1 && abs(new_g_pos_y - current_g_pos_y) == 1))
 					{ // if mouse is not clicked
 						piece_is_clicked = false;
 						if (current_g_pos_x != new_g_pos_x || current_g_pos_y != new_g_pos_y) // if you pick up the piece and put it back where it was
@@ -948,7 +962,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 						}
 						else if (!is_goats_turn and grid[i][j] == 1)
 						{
-							if (i >= 1 and i <= 3 and j >= 1 and j <= 3 and grid[i - 1][j - 1] == 2 and grid[i + 1][j + 1] == 0 and ((i + j) % 2 == 0)) // top left bagh, bottom right empty
+							if (i >= 1 and i <= 3 and j >= 1 and j <= 3 and grid[i - 1][j - 1] == 2 and grid[i + 1][j + 1] == 0 and ((i+j)%2==0)) // top left bagh, bottom right empty
 							{
 								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
@@ -1008,7 +1022,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 								is_goats_turn = true;
 								continue;
 							}
-							if (((i - 1) >= 0 and (j + 1) <= 4 and (i + 1) <= 4 and (j - 1) >= 0) and grid[i - 1][j + 1] == 2 and grid[i + 1][j - 1] == 0 and ((i + j) % 2 == 0)) //tried for top right bagh, bottom left empty, don't know what has become
+							if (((i - 1) >= 0 and (j + 1) <= 4 and (i + 1) <= 4 and (j - 1) >= 0) and grid[i - 1][j + 1] == 2 and grid[i + 1][j - 1] == 0 and ((i+j)%2==0)) //tried for top right bagh, bottom left empty, don't know what has become
 							{
 								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
@@ -1120,7 +1134,7 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 								new_t_pos_y = tiger_i_position_y + k;
 								if ((abs(j) == 2 or abs(k) == 2) and grid[tiger_i_position_x + j][tiger_i_position_y + k] == 0 and grid[tiger_i_position_x + j / 2][tiger_i_position_y + k / 2] == 1) // Tiger moves to eat goat
 								{																																									  // If tiger is in a position to eat
-									if (j == k or j == -k && ((tiger_i_position_x + tiger_i_position_y) % 2 == 0))
+									if (j == k or j == -k && ((tiger_i_position_x+tiger_i_position_y)%2==0))
 									{ //////Diagonal//////
 										mid_tile_x = min(tiger_i_position_x, new_t_pos_x) + 1;
 										mid_tile_y = min(tiger_i_position_y, new_t_pos_y) + 1;
@@ -1362,6 +1376,19 @@ void update_events(RenderWindow& window, Bakhraa goats[], Baagh tigers[], int* x
 					// }
 				}
 			}
+		}
+	}
+	else if (!GameOver::game_is_over && GameOver::is_main_menu)
+	{
+		if (x_m > 80 && x_m < 450 && y_m>380 && y_m < 470 && Mouse::isButtonPressed(Mouse::Left))
+		{
+			GameOver::is_main_menu = false;
+			is_multiplayer = true;
+		}
+		else if (x_m > 775 && x_m < 1075 && y_m>400 && y_m < 470 && Mouse::isButtonPressed(Mouse::Left))
+		{
+			GameOver::is_main_menu = false;
+			is_multiplayer = false;
 		}
 	}
 }
