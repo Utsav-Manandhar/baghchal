@@ -1,7 +1,4 @@
-#pragma once
-
-#include"Baagh.h"
-
+#include "Baagh.h"
 
 Baagh::Baagh() {}
 goatstate Baagh::getState()
