@@ -1,6 +1,7 @@
 # baghchal
 3rd sem OOP project
-to load image download image directory and put your respective image fullpath in 4 section of code 
 
+    To load images and sound, please update the file path in line 21 & 22.
 
-To run this code via terminal : g++ Animal.cpp Baagh.cpp baghchal.cpp Bakhraa.cpp -o baghchal-app -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system && ./baghchal-app
+    To run this code via terminal : g++ Animal.cpp Baagh.cpp baghchal.cpp Bakhraa.cpp -o baghchal-app -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system && ./baghchal-app
+
