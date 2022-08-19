@@ -328,11 +328,14 @@ int main()
 	}
 
 	// to load image
-	Sprite background, gturn, tturn, killed[6], ctiger, cgoat,board;
-	Texture backgroundtex, gturnt, tturnt, killeds[6], ctigert, cgoatt,boardt;
+	Sprite background, gturn, tturn, killed[6], ctiger, cgoat,board,mainmenu;
+	Texture backgroundtex, gturnt, tturnt, killeds[6], ctigert, cgoatt,boardt,mainmenut;
 	backgroundtex.loadFromFile(filepath.ImgPath + "/background.jpg");
 	background.setTexture(backgroundtex);
 	background.setScale(1.2f, 1.2f);
+	mainmenut.loadFromFile(filepath.ImgPath + "/mainmenu.png");
+	mainmenu.setTexture(mainmenut);
+	mainmenu.setScale(0.7f, 0.7f);
 	// turn display
 	gturnt.loadFromFile(filepath.ImgPath + "/goaturn.png");
 	gturn.setTexture(gturnt);
@@ -506,7 +509,7 @@ int main()
 			window.draw(board);
 			window.draw(ctiger);
 			window.draw(cgoat);
-
+		
 			if (is_goats_turn)
 			{
 				window.draw(gturn);
