@@ -939,9 +939,9 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 						{ // skipped for corners
 							continue;
 						}
-						if (!is_goats_turn and grid[i][j] == 1)
+						else if (!is_goats_turn and grid[i][j] == 1)
 						{
-							if (((i - 1) >= 0 and (j - 1) >= 0 and (i + 1) <= 4 and (j + 1) <= 4) and grid[i - 1][j - 1] == 2 and grid[i + 1][j + 1] == 0) // top left bagh, bottom right empty
+							if ( i>=1 and i<=3 and j>=1 and j<=3 and grid[i - 1][j - 1] == 2 and grid[i + 1][j + 1] == 0) // top left bagh, bottom right empty
 							{
 								for (int goat_i = 0; goat_i < 20; goat_i++)
 								{
@@ -971,96 +971,126 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 								is_goats_turn = true;
 								continue;
 							}
-							// if (( i>=1 and i<=3 and j>=0 and j<=4 ) and grid[i - 1][j] == 2 and grid[i + 1][j] == 0) // top bagh, bottom empty
-							// {
-							// 	for (int goat_i = 0; goat_i < 20; goat_i++)
-							// 	{
-							// 		if (goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j)
-							// 		{
-							// 			bali_ka_bakhraa = goat_i;
-							// 			break;
-							// 		}
-							// 	}
-							// 	for (int tiger_i = 0; tiger_i < 4; tiger_i++)
-							// 	{
-							// 		if (tigers[tiger_i].get_X() == (i - 1) and tigers[tiger_i].get_Y() == (j))
-							// 		{
-							// 			hunter_tiger = tiger_i;
-							// 			break;
-							// 		}
-							// 	}
-							// 	goats[bali_ka_bakhraa].setstate(Dead);
-							// 	Bakhraa::increaseDeathToll();
-							// 	goats[bali_ka_bakhraa].set_Position(-1, -1);
-							// 	grid[i][j] = 0;
+							else if ( i>=1 and i<=3 and j>=0 and j<=4 and grid[i - 1][j] == 2 and grid[i + 1][j] == 0) //tried for top bagh, bottom empty, don't know what has become
+							{
+								for (int goat_i = 0; goat_i < 20; goat_i++)
+								{
+									if (goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j)
+									{
+										bali_ka_bakhraa = goat_i;
+										break;
+									}
+								}
+								for (int tiger_i = 0; tiger_i < 4; tiger_i++)
+								{
+									if (tigers[tiger_i].get_X() == (i - 1) and tigers[tiger_i].get_Y() == (j))
+									{
+										hunter_tiger = tiger_i;
+										break;
+									}
+								}
+								goats[bali_ka_bakhraa].setstate(Dead);
+								Bakhraa::increaseDeathToll();
+								goats[bali_ka_bakhraa].set_Position(-1, -1);
+								grid[i][j] = 0;
 
-							// 	grid[i - 1][j] = 0;
-							// 	grid[i + 1][j] = 2;
-							// 	tigers[hunter_tiger].set_Position(i + 1, j);
-							// 	tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
-							// 	is_goats_turn = true;
-							// 	continue;
-							// }
-							// if( ( (i-1)>=0 and (j+1)<=4 and (i+1)<=4 and (j-1)>=0 ) and grid[i-1][j+1] == 2 and grid[i+1][j-1] == 0 ) //top right bagh, bottom left empty
-							// {
-							// 	for( int goat_i =0; goat_i < 20; goat_i++ )
-							// 	{
-							// 		if( goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j )
-							// 		{
-							// 			bali_ka_bakhraa = goat_i;
-							// 			break;
-							// 		}
-							// 	}
-							// 	for( int tiger_i = 0; tiger_i<4; tiger_i++)
-							// 	{
-							// 		if( tigers[tiger_i].get_X() == (i-1) and tigers[tiger_i].get_Y() == (j+1) )
-							// 		{
-							// 			hunter_tiger = tiger_i;
-							// 			break;
-							// 		}
-							// 	}
-							// 	goats[bali_ka_bakhraa].setstate(Dead);
-							// 	Bakhraa::increaseDeathToll();
-							// 	goats[bali_ka_bakhraa].set_Position(-1,-1);
-							// 	grid[i][j] = 0;
+								grid[i - 1][j] = 0;
+								grid[i + 1][j] = 2;
+								tigers[hunter_tiger].set_Position(i + 1, j);
+								tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
+								is_goats_turn = true;
+								continue;
+							}
+							if( ( (i-1)>=0 and (j+1)<=4 and (i+1)<=4 and (j-1)>=0 ) and grid[i-1][j+1] == 2 and grid[i+1][j-1] == 0 ) //tried for top right bagh, bottom left empty, don't know what has become
+							{
+								for( int goat_i =0; goat_i < 20; goat_i++ )
+								{
+									if( goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j )
+									{
+										bali_ka_bakhraa = goat_i;
+										break;
+									}
+								}
+								for( int tiger_i = 0; tiger_i<4; tiger_i++)
+								{
+									if( tigers[tiger_i].get_X() == (i-1) and tigers[tiger_i].get_Y() == (j+1) )
+									{
+										hunter_tiger = tiger_i;
+										break;
+									}
+								}
+								goats[bali_ka_bakhraa].setstate(Dead);
+								Bakhraa::increaseDeathToll();
+								goats[bali_ka_bakhraa].set_Position(-1,-1);
+								grid[i][j] = 0;
 
-							// 	grid[i-1][j+1] = 0;
-							// 	grid[i+1][j-1] = 2;
-							// 	tigers[hunter_tiger].set_Position(i+1,j-1);
-							// 	tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
-							// 	is_goats_turn = true;
-							// 	continue;
-							// }
-							// if( ( (i)>=0 and (j+1)<=4 and (i)<=4 and (j-1)>=0 ) and grid[i][j+1] == 2 and grid[i][j-1] == 0 ) //right bagh, left empty
-							// {
-							// 	for( int goat_i =0; goat_i < 20; goat_i++ )
-							// 	{
-							// 		if( goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j )
-							// 		{
-							// 			bali_ka_bakhraa = goat_i;
-							// 			break;
-							// 		}
-							// 	}
-							// 	for( int tiger_i = 0; tiger_i<4; tiger_i++)
-							// 	{
-							// 		if( tigers[tiger_i].get_X() == (i) and tigers[tiger_i].get_Y() == (j+1) )
-							// 		{
-							// 			hunter_tiger = tiger_i;
-							// 			break;
-							// 		}
-							// 	}
-							// 	goats[bali_ka_bakhraa].setstate(Dead);
-							// 	Bakhraa::increaseDeathToll();
-							// 	goats[bali_ka_bakhraa].set_Position(-1,-1);
-							// 	grid[i][j] = 0;
+								grid[i-1][j+1] = 0;
+								grid[i+1][j-1] = 2;
+								tigers[hunter_tiger].set_Position(i+1,j-1);
+								tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
+								is_goats_turn = true;
+								continue;
+							}
+							if( ( (i)>=0 and (j+1)<=4 and (i)<=4 and (j-1)>=0 ) and grid[i][j+1] == 2 and grid[i][j-1] == 0 ) //tried for right bagh, left empty, don't know what has become xD
+							{
+								for( int goat_i =0; goat_i < 20; goat_i++ )
+								{
+									if( goats[goat_i].get_X() == i and goats[goat_i].get_Y() == j )
+									{
+										bali_ka_bakhraa = goat_i;
+										break;
+									}
+								}
+								for( int tiger_i = 0; tiger_i<4; tiger_i++)
+								{
+									if( tigers[tiger_i].get_X() == (i) and tigers[tiger_i].get_Y() == (j+1) )
+									{
+										hunter_tiger = tiger_i;
+										break;
+									}
+								}
+								goats[bali_ka_bakhraa].setstate(Dead);
+								Bakhraa::increaseDeathToll();
+								goats[bali_ka_bakhraa].set_Position(-1,-1);
+								grid[i][j] = 0;
 
-							// 	grid[i][j+1] = 0;
-							// 	grid[i][j-1] = 2;
-							// 	tigers[hunter_tiger].set_Position(i,j-1);
-							// 	tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
-							// 	is_goats_turn = true;
-							// 	continue;
-							// }
+								grid[i][j+1] = 0;
+								grid[i][j-1] = 2;
+								tigers[hunter_tiger].set_Position(i,j-1);
+								tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
+								is_goats_turn = true;
+								continue;
+							}
+							if( grid[i][j-1] ==2 and grid[i][j+1] ==0 and i >= 0 and i <= 4 and j >=1 and j<=3 ) //tried for left bagh, right empty, don't know what has become xD
+							{
+								for(int goat_i =0; goat_i<20; goat_i++ )
+								{
+									if(goats[goat_i].get_X() ==i and goats[goat_i].get_Y() == j )
+									{
+										bali_ka_bakhraa = goat_i;
+										break;
+									}
+								}
+								for(int tiger_i=0; tiger_i<4; tiger_i++)
+								{
+									if(tigers[tiger_i].get_X() == i and tigers[tiger_i].get_Y() == (j-1) )
+									{
+										hunter_tiger = tiger_i;
+										break;
+									}
+								}
+								goats[bali_ka_bakhraa].setstate(Dead);
+								Bakhraa::increaseDeathToll();
+								goats[bali_ka_bakhraa].set_Position(-1,-1);
+								grid[i][j] = 0;
+
+								grid[i][j-1] =0;
+								grid[i][j+1] =2;
+								tigers[hunter_tiger].set_Position(i,j+1);
+								tigers[hunter_tiger].setPosition(Vector2f(x_grid[tigers[hunter_tiger].get_X()], y_grid[tigers[hunter_tiger].get_Y()]));
+								is_goats_turn = true;
+								continue;
+							}
 						}
 					}
 				}
