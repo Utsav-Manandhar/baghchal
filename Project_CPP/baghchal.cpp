@@ -54,7 +54,7 @@ public:
 
 							continue;
 						}
-						if (grid[tiger_going_to_x + j][tiger_going_to_y + k] == 0)
+						if (grid[tiger_going_to_x + j][tiger_going_to_y + k] == 0 &&!((tiger_going_to_x+tiger_going_to_y)%2==1&&(j==2||k==2)))
 						{
 							bagh_can_move = true;
 						}
