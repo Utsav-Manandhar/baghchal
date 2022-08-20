@@ -320,7 +320,7 @@ int main()
 			}
 			else
 			{
-				this_thread::sleep_for(chrono::milliseconds(500) );
+				this_thread::sleep_for(chrono::milliseconds(569) );
 				window.draw(tigerw);
 			}
 		}
