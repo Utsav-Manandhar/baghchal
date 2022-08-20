@@ -1,7 +1,8 @@
-//#pragma once
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include<chrono>
+#include<thread>
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
@@ -319,6 +320,7 @@ int main()
 			}
 			else
 			{
+				this_thread::sleep_for(chrono::milliseconds(500) );
 				window.draw(tigerw);
 			}
 		}
@@ -631,6 +633,7 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 			}
 			else if (!is_goats_turn)
 			{
+				this_thread::sleep_for(chrono::milliseconds(1200) ); //time delay before bagh moves for better ux
 				for (int i = 0; i < 5; i++)
 				{
 					for (int j = 0; j < 5; j++)
