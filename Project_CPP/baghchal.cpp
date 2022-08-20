@@ -7,9 +7,9 @@
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
 #include "SFML/Audio.hpp"
-#include "Animal.h"
-#include "Bakhraa.h"
-#include "Baagh.h"
+#include "header_files/Animal.h"
+#include "header_files/Bakhraa.h"
+#include "header_files/Baagh.h"
 
 using namespace std;
 using namespace sf;

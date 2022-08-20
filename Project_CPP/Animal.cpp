@@ -1,4 +1,4 @@
-#include "Animal.h"
+#include "header_files/Animal.h"
 using namespace std;
 using namespace sf;
 void Animal::set_Position(int x = 0, int y = 0)
