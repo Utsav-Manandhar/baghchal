@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
-#include<chrono>
-#include<thread>
+#include <chrono>
+#include <thread>
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/System.hpp"
@@ -55,7 +55,7 @@ public:
 
 							continue;
 						}
-						if (grid[tiger_going_to_x + j][tiger_going_to_y + k] == 0 &&!((tiger_going_to_x+tiger_going_to_y)%2==1&&(j==2||k==2)))
+						if (grid[tiger_going_to_x + j][tiger_going_to_y + k] == 0 && !((tiger_going_to_x + tiger_going_to_y) % 2 == 1 && (j == 2 || k == 2)))
 						{
 							bagh_can_move = true;
 						}
@@ -265,11 +265,6 @@ int main()
 
 		if (!GameOver::game_is_over)
 		{
-			// SHOWING GAME UI unless game is over (work needs to be done)
-			/////
-			//////
-			//////
-
 			if (GameOver::is_main_menu)
 			{
 				window.draw(mainmenu);
@@ -320,7 +315,7 @@ int main()
 			}
 			else
 			{
-				this_thread::sleep_for(chrono::milliseconds(569) );
+				this_thread::sleep_for(chrono::milliseconds(569));
 				window.draw(tigerw);
 			}
 		}
@@ -633,7 +628,7 @@ void update_events(RenderWindow &window, Bakhraa goats[], Baagh tigers[], int *x
 			}
 			else if (!is_goats_turn)
 			{
-				this_thread::sleep_for(chrono::milliseconds(1200) ); //time delay before bagh moves for better ux
+				this_thread::sleep_for(chrono::milliseconds(1200)); // time delay before bagh moves for better ux
 				for (int i = 0; i < 5; i++)
 				{
 					for (int j = 0; j < 5; j++)
